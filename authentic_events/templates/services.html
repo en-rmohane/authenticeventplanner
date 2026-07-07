@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920');">
+    <div class="container">
+        <p data-aos="fade-up">Authentic Event Planner</p>
+        <h1 class="font-serif" data-aos="fade-up" data-aos-delay="200">Our Services & Packages</h1>
+    </div>
+</section>
+
+<!-- Detailed Services -->
+<section class="section-padding">
+    <div class="container">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+            <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Custom Styling</h4>
+            <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2;">Exquisite Event Categories</h2>
+            <p style="color: var(--text-muted); margin-top: 15px;">We plan and decorate events to match your status. Browse our comprehensive decoration packages.</p>
+        </div>
+        <div class="service-grid">
+            {% for category in categories %}
+            <div class="service-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div style="height: 220px; overflow: hidden; border-radius: 4px; margin-bottom: 25px;">
+                    {% if category.slug == 'wedding' %}
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=500" alt="Wedding Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'birthday' %}
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=500" alt="Birthday Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'corporate' %}
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=500" alt="Corporate Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'engagement' %}
+                        <img src="https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?auto=format&fit=crop&q=80&w=500" alt="Engagement Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'babyshower' %}
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=500" alt="Baby Shower Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'anniversary' %}
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=500" alt="Anniversary Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif category.slug == 'festival' %}
+                        <img src="https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&q=80&w=500" alt="Festival Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=500" alt="Event Setup" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% endif %}
+                </div>
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.description or "We deliver end-to-end design, floral setups, lighting, and layout execution customized to your preferences." }}</p>
+                <div style="margin-bottom: 25px; text-align: left;">
+                    <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-muted);">
+                        <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold-dark); margin-right: 10px;"></i> Professional Theme Layout</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold-dark); margin-right: 10px;"></i> Floral & Stage Architecture</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold-dark); margin-right: 10px;"></i> On-Site Coordination</li>
+                    </ul>
+                </div>
+                <a href="{{ url_for('main.booking') }}" class="btn-gold" style="display: block; text-align: center; font-size: 0.8rem;">Book Consultation</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Packages -->
+<section class="section-padding" style="background-color: var(--bg-card);">
+    <div class="container">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+            <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Pricing Plans</h4>
+            <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2;">Curated Package Options</h2>
+        </div>
+        <div class="pricing-grid">
+            <!-- Basic Package -->
+            <div class="pricing-card" data-aos="fade-up">
+                <h3>Basic Plan</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Ideal for intimate home decorations & simple setups</p>
+                <div class="pricing-price">₹25,000<span> / event</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Standard Stage Backdrop Decor</li>
+                    <li><i class="fas fa-check"></i> Entry Gate Balloon / Basic Floral Arch</li>
+                    <li><i class="fas fa-check"></i> General Ambient Lighting Setup</li>
+                    <li><i class="fas fa-check"></i> 1 Day On-site Execution Team</li>
+                    <li><i class="fas fa-times"></i> Imported Exotic Florals</li>
+                    <li><i class="fas fa-times"></i> Thematic Dining Area Styling</li>
+                    <li><i class="fas fa-times"></i> 3D Visualization Modeling</li>
+                </ul>
+                <a href="{{ url_for('main.booking') }}" class="btn-maroon" style="display: block; text-align: center;">Enquire Now</a>
+            </div>
+            <!-- Premium Package (Featured) -->
+            <div class="pricing-card featured" data-aos="fade-up" data-aos-delay="150">
+                <div class="pricing-badge">Popular</div>
+                <h3>Premium Plan</h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 20px;">Perfect for weddings, receptions & gala birthdays</p>
+                <div class="pricing-price" style="color: var(--gold-light);">₹75,000<span> / event</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> High-end Thematic Stage Setup</li>
+                    <li><i class="fas fa-check"></i> Entrance Walkway Floral Pillars</li>
+                    <li><i class="fas fa-check"></i> Intelligent Moving Head Lighting</li>
+                    <li><i class="fas fa-check"></i> Professional Sound System & DJ Booth</li>
+                    <li><i class="fas fa-check"></i> Table/Chair Styling & Linen Sets</li>
+                    <li><i class="fas fa-check"></i> 3 Day Planning & Coordination</li>
+                    <li><i class="fas fa-times"></i> Premium Imported Flowers</li>
+                </ul>
+                <a href="{{ url_for('main.booking') }}" class="btn-gold" style="display: block; text-align: center;">Enquire Now</a>
+            </div>
+            <!-- Luxury Package -->
+            <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                <h3>Luxury Plan</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Ultimate royal decorations & VIP planning experience</p>
+                <div class="pricing-price">₹1,50,000<span> / event</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Royal Grand Arch & Structural Setup</li>
+                    <li><i class="fas fa-check"></i> 100% Premium Imported Exotic Flowers</li>
+                    <li><i class="fas fa-check"></i> Full Stage Light Design & Hazer Setup</li>
+                    <li><i class="fas fa-check"></i> Thematic Dining Area Canopy Styling</li>
+                    <li><i class="fas fa-check"></i> Professional Photography/Cinematography</li>
+                    <li><i class="fas fa-check"></i> Dedicated Event Manager & Crew</li>
+                    <li><i class="fas fa-check"></i> Custom 3D Theme Visualization previews</li>
+                </ul>
+                <a href="{{ url_for('main.booking') }}" class="btn-maroon" style="display: block; text-align: center;">Enquire Now</a>
+            </div>
+        </div>
+
+        <!-- Feature Comparison Table -->
+        <div class="comparison-table-wrapper" data-aos="fade-up">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Features & Offerings</th>
+                        <th style="text-align: center;">Basic Plan</th>
+                        <th style="text-align: center;">Premium Plan</th>
+                        <th style="text-align: center;">Luxury Plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Custom Thematic Layouts</td>
+                        <td style="text-align: center; color: var(--text-muted);">Standard templates</td>
+                        <td style="text-align: center; color: var(--maroon);">Customized choices</td>
+                        <td style="text-align: center; color: var(--maroon);">Bespoke design concepts</td>
+                    </tr>
+                    <tr>
+                        <td>Imported Exotic Flowers</td>
+                        <td style="text-align: center;"><i class="fas fa-times"></i></td>
+                        <td style="text-align: center; color: var(--maroon);">Limited accents</td>
+                        <td style="text-align: center;"><i class="fas fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Lighting Architectures</td>
+                        <td style="text-align: center; color: var(--text-muted);">Halogens & LED Pars</td>
+                        <td style="text-align: center; color: var(--maroon);">Moving Heads & LEDs</td>
+                        <td style="text-align: center; color: var(--maroon);">Intelligent lasers, spots & haze</td>
+                    </tr>
+                    <tr>
+                        <td>Dining Area & Canopy Styling</td>
+                        <td style="text-align: center;"><i class="fas fa-times"></i></td>
+                        <td style="text-align: center;"><i class="fas fa-check"></i></td>
+                        <td style="text-align: center;"><i class="fas fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Dedicated Coordinators</td>
+                        <td style="text-align: center; color: var(--text-muted);">1 coordinator</td>
+                        <td style="text-align: center; color: var(--maroon);">3 coordinators</td>
+                        <td style="text-align: center; color: var(--maroon);">Full execution managers</td>
+                    </tr>
+                    <tr>
+                        <td>3D Setup Visualizer Previews</td>
+                        <td style="text-align: center;"><i class="fas fa-times"></i></td>
+                        <td style="text-align: center;"><i class="fas fa-times"></i></td>
+                        <td style="text-align: center;"><i class="fas fa-check"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

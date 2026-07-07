@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} - {{ company_name }}{% endblock %}
+
+{% block meta_description %}{{ project.description[:150] }} - View this {{ project.category }} decoration project in {{ project.city }} by {{ company_name }}.{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="py-5" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ url_for('static', filename='images/portfolio/' + project.featured_image) if project.featured_image else url_for('static', filename='images/portfolio-bg.jpg') }}'); background-size: cover; background-position: center; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold">{{ project.title }}</h1>
+                <div class="project-meta mt-4">
+                    <span class="badge bg-warning text-dark me-2">{{ project.budget }}</span>
+                    <span class="badge bg-primary me-2">{{ project.category|title }}</span>
+                    <span class="badge bg-info me-2">{{ project.city_type|upper }} City</span>
+                    <span class="badge bg-light text-dark">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ project.city }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Details -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Project Gallery -->
+                <div class="mb-5">
+                    <div class="row g-3">
+                        <!-- Main Image -->
+                        <div class="col-12">
+                            <div class="project-main-image">
+                                <img src="{{ url_for('static', filename='images/portfolio/' + project.featured_image) if project.featured_image else url_for('static', filename='images/portfolio-default.jpg') }}"
+                                     class="img-fluid rounded shadow-lg" alt="{{ project.title }}" id="mainImage">
+                            </div>
+                        </div>
+
+                        <!-- Thumbnails -->
+                        {% if project.image_gallery %}
+                        {% set gallery_images = project.image_gallery|from_json %}
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for img in gallery_images[:5] %}
+                                <div class="thumbnail" onclick="changeImage('{{ url_for('static', filename='images/portfolio/' + img) }}')">
+                                    <img src="{{ url_for('static', filename='images/portfolio/' + img) }}"
+                                         class="img-thumbnail" alt="Gallery Image {{ loop.index }}">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Project Description -->
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">Project <span class="text-primary">Details</span></h2>
+                    <div class="project-description">
+                        {{ project.description|safe if project.description else "No detailed description available." }}
+                    </div>
+                </div>
+
+                <!-- Materials Used -->
+                {% if project.materials_used %}
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">Materials <span class="text-primary">Used</span></h2>
+                    <div class="row g-3">
+                        {% set materials = project.materials_used.split(',') %}
+                        {% for material in materials %}
+                        <div class="col-md-4 col-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-gem fa-2x text-primary mb-2"></i>
+                                    <h6>{{ material.strip() }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Design Theme -->
+                {% if project.design_theme %}
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">Design <span class="text-primary">Theme</span></h2>
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.design_theme }}</h5>
+                            <p class="card-text">Custom designed to match the client's vision and requirements.</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Project Info Card -->
+                <div class="card border-0 shadow-lg mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Project Information</h4>
+
+                        <div class="project-info">
+                            <div class="info-item mb-3">
+                                <h6><i class="fas fa-rupee-sign text-primary me-2"></i>Budget</h6>
+                                <p class="mb-0">{{ project.budget }}</p>
+                            </div>
+
+                            <div class="info-item mb-3">
+                                <h6><i class="fas fa-map-marker-alt text-primary me-2"></i>Location</h6>
+                                <p class="mb-0">{{ project.city }}, {{ project.state if project.state else 'India' }}</p>
+                                <span class="badge city-badge badge-{{ project.city_type }} mt-1">
+                                    {{ project.city_type|upper }} City
+                                </span>
+                            </div>
+
+                            <div class="info-item mb-3">
+                                <h6><i class="fas fa-calendar-alt text-primary me-2"></i>Event Date</h6>
+                                <p class="mb-0">{{ project.event_date.strftime('%d %B, %Y') if project.event_date else 'Not specified' }}</p>
+                            </div>
+
+                            <div class="info-item mb-3">
+                                <h6><i class="fas fa-heart text-primary me-2"></i>Event Type</h6>
+                                <p class="mb-0">{{ project.category|title }}</p>
+                            </div>
+
+                            {% if project.client_name %}
+                            <div class="info-item">
+                                <h6><i class="fas fa-user text-primary me-2"></i>Client</h6>
+                                <p class="mb-0">{{ project.client_name }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Get Similar Quote -->
+                <div class="card border-0 shadow-lg mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Get Similar Quote</h4>
+                        <p class="text-muted small mb-3">Like this project? Get a quote for similar decoration.</p>
+
+                        <form action="{{ url_for('quote') }}" method="GET">
+                            <input type="hidden" name="category" value="{{ project.category }}">
+                            <input type="hidden" name="city" value="{{ project.city }}">
+
+                            <div class="mb-3">
+                                <label class="form-label">Your City</label>
+                                <input type="text" name="city" class="form-control" placeholder="Enter your city" value="{{ project.city }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Approximate Budget</label>
+                                <select name="budget_range" class="form-select">
+                                    <option value="">Select Budget</option>
+                                    <option value="25-50">₹25,000 - ₹50,000</option>
+                                    <option value="50-75">₹50,000 - ₹75,000</option>
+                                    <option value="75-100">₹75,000 - ₹1,00,000</option>
+                                    <option value="100-150">₹1,00,000 - ₹1,50,000</option>
+                                    <option value="150+">₹1,50,000+</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-quote-left me-2"></i>Get Quote for Similar Project
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Card -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Contact for Similar Work</h4>
+                        <div class="d-grid gap-2">
+                            <a href="tel:{{ contact_phone }}" class="btn btn-outline-primary">
+                                <i class="fas fa-phone-alt me-2"></i>Call: {{ contact_phone }}
+                            </a>
+                            <a href="https://wa.me/{{ contact_whatsapp }}?text=Hi!%20I%20saw%20your%20project%20'{{ project.title }}'%20and%20want%20similar%20decoration."
+                               target="_blank" class="btn btn-success">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Video Section (if available) -->
+{% if project.video_link %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="section-title text-center mb-4">Project <span class="text-primary">Video</span></h2>
+                <div class="ratio ratio-16x9">
+                    <iframe src="{{ project.video_link }}"
+                            title="{{ project.title }} Video"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Similar Projects -->
+{% if similar_projects %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Similar <span class="text-primary">Projects</span></h2>
+            <p class="text-muted">More projects you might like</p>
+        </div>
+
+        <div class="row g-4">
+            {% for similar in similar_projects %}
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='images/portfolio/' + similar.featured_image) if similar.featured_image else url_for('static', filename='images/portfolio-default.jpg') }}"
+                             class="card-img-top" alt="{{ similar.title }}" style="height: 200px; object-fit: cover;">
+                        <span class="position-absolute top-0 end-0 m-3 city-badge badge-{{ similar.city_type }}">
+                            {{ similar.city_type|upper }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ similar.title }}</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary">{{ similar.category|title }}</span>
+                            <span class="text-warning fw-bold">{{ similar.budget }}</span>
+                        </div>
+                        <p class="card-text small text-muted">{{ similar.description[:80] }}...</p>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ similar.city }}
+                            </small>
+                            <a href="{{ url_for('project_detail', slug=similar.slug) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Inspired by This Project?</h3>
+                <p class="mb-0">Contact us to create something beautiful for your event.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('quote') }}?category={{ project.category }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-magic me-2"></i>Create Magic for Me
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.project-main-image {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.thumbnail {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+.thumbnail .img-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.project-info .info-item {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.project-info .info-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.project-description {
+    line-height: 1.8;
+}
+.project-description p {
+    margin-bottom: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeImage(src) {
+    document.getElementById('mainImage').src = src;
+}
+</script>
+{% endblock %}

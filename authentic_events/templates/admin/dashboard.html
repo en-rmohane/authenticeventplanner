@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block body_class %}admin-theme{% endblock %}
+
+{% block content %}
+<section class="section-padding" style="margin-top: 50px; background-color: var(--bg-ivory); min-height: 90vh; transition: var(--transition);">
+    <div class="container">
+        <!-- Dashboard Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; flex-wrap: wrap; gap: 20px; border-bottom: 1px solid var(--border-gold); padding-bottom: 30px;" data-aos="fade-up">
+            <div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <h1 class="font-serif" style="font-size: 2.8rem; color: var(--gold); margin: 0; letter-spacing: 2px;">Admin Dashboard</h1>
+                    <span class="admin-header-badge">Executive Portal</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Welcome back, Administrator. Control and manage your majestic events business portal here.</p>
+            </div>
+            <a href="{{ url_for('main.admin_logout') }}" class="btn-maroon" style="padding: 10px 25px; font-size: 0.8rem; letter-spacing: 1px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px;" data-aos="fade-up" data-aos-delay="100">
+            <!-- Enquiries Card -->
+            <div class="admin-card" style="text-align: center; margin: 0; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+                <i class="fas fa-envelope-open-text" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 15px;"></i>
+                <h2 style="font-size: 3rem; color: var(--text-dark); font-family: 'Cinzel', serif; font-weight: 700; margin-bottom: 5px;">{{ enquiries_count }}</h2>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 25px;">Total Enquiries</p>
+                <a href="{{ url_for('main.admin_enquiries') }}" class="btn-gold" style="padding: 10px 18px; font-size: 0.75rem; width: 100%; letter-spacing: 1px;">Manage Inbox</a>
+            </div>
+            
+            <!-- Gallery Card -->
+            <div class="admin-card" style="text-align: center; margin: 0; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+                <i class="fas fa-images" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 15px;"></i>
+                <h2 style="font-size: 3rem; color: var(--text-dark); font-family: 'Cinzel', serif; font-weight: 700; margin-bottom: 5px;">{{ gallery_count }}</h2>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 25px;">Gallery Photos</p>
+                <a href="{{ url_for('main.admin_gallery') }}" class="btn-gold" style="padding: 10px 18px; font-size: 0.75rem; width: 100%; letter-spacing: 1px;">Manage Gallery</a>
+            </div>
+
+            <!-- Testimonials Card -->
+            <div class="admin-card" style="text-align: center; margin: 0; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+                <i class="fas fa-comment-dots" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 15px;"></i>
+                <h2 style="font-size: 3rem; color: var(--text-dark); font-family: 'Cinzel', serif; font-weight: 700; margin-bottom: 5px;">{{ testimonials_count }}</h2>
+                <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 25px;">Client Reviews</p>
+                <a href="{{ url_for('main.admin_testimonials') }}" class="btn-gold" style="padding: 10px 18px; font-size: 0.75rem; width: 100%; letter-spacing: 1px;">Manage Reviews</a>
+            </div>
+        </div>
+
+        <!-- Recent Enquiries -->
+        <div class="admin-card" data-aos="fade-up" data-aos-delay="200" style="padding: 40px; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid rgba(197, 168, 90, 0.1); padding-bottom: 20px;">
+                <h3 class="font-serif" style="margin: 0; font-size: 1.8rem; color: var(--gold); letter-spacing: 1px;">Recent Inquiries Inbox</h3>
+                <a href="{{ url_for('main.admin_enquiries') }}" class="btn-gold" style="padding: 8px 18px; font-size: 0.75rem; letter-spacing: 1px;">View Full Inbox</a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Client Name</th>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Event Category</th>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Event Date</th>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Guests</th>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Status</th>
+                            <th style="border-bottom: 2px solid var(--border-gold); background: transparent; color: var(--gold-light);">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if recent_enquiries %}
+                            {% for enquiry in recent_enquiries %}
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; background: transparent;" onmouseover="this.style.background='rgba(197,168,90,0.02)'" onmouseout="this.style.background='transparent'">
+                                <td style="font-weight: 600; padding: 18px 12px;">{{ enquiry.name }}</td>
+                                <td style="padding: 18px 12px;">{{ enquiry.event_type }}</td>
+                                <td style="padding: 18px 12px;">{{ enquiry.event_date.strftime('%Y-%m-%d') if enquiry.event_date else 'N/A' }}</td>
+                                <td style="padding: 18px 12px;">{{ enquiry.guest_count or 'N/A' }}</td>
+                                <td style="padding: 18px 12px;">
+                                    <span class="badge {% if enquiry.status == 'Pending' %}badge-pending{% elif enquiry.status == 'Confirmed' %}badge-confirmed{% else %}badge-completed{% endif %}" style="border: 1px solid currentColor; background: transparent;">
+                                        {{ enquiry.status }}
+                                    </span>
+                                </td>
+                                <td style="padding: 18px 12px;">
+                                    <a href="{{ url_for('main.admin_enquiries') }}" style="color: var(--gold); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: 0.3s;"><i class="fas fa-edit" style="margin-right: 5px;"></i> Update</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No enquiries have been submitted yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

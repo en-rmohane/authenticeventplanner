@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block title %}Our Portfolio - {{ company_name }}{% endblock %}
+
+{% block meta_description %}View our event decoration portfolio - Wedding decorations, corporate events, birthday parties across India. See our work in different cities.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ url_for('static', filename='images/portfolio-bg.jpg') }}'); background-size: cover; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold">Our Decoration Portfolio</h1>
+                <p class="lead">See our work across different cities and event types</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Filters -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-3">
+                        <form method="get" action="{{ url_for('portfolio') }}" class="row g-3 align-items-center">
+                            <div class="col-md-3">
+                                <label class="form-label">Event Type</label>
+                                <select name="category" class="form-select">
+                                    <option value="all" {% if current_category == 'all' %}selected{% endif %}>All Categories</option>
+                                    <option value="wedding" {% if current_category == 'wedding' %}selected{% endif %}>Wedding</option>
+                                    <option value="corporate" {% if current_category == 'corporate' %}selected{% endif %}>Corporate</option>
+                                    <option value="birthday" {% if current_category == 'birthday' %}selected{% endif %}>Birthday</option>
+                                    <option value="festival" {% if current_category == 'festival' %}selected{% endif %}>Festival</option>
+                                    <option value="home" {% if current_category == 'home' %}selected{% endif %}>Home Decor</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">City Type</label>
+                                <select name="city_type" class="form-select">
+                                    <option value="all" {% if current_city_type == 'all' %}selected{% endif %}>All City Types</option>
+                                    <option value="metro" {% if current_city_type == 'metro' %}selected{% endif %}>Metro Cities</option>
+                                    <option value="tier2" {% if current_city_type == 'tier2' %}selected{% endif %}>Tier 2 Cities</option>
+                                    <option value="tier3" {% if current_city_type == 'tier3' %}selected{% endif %}>Tier 3 Cities</option>
+                                    <option value="local" {% if current_city_type == 'local' %}selected{% endif %}>Local Cities</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">City</label>
+                                <select name="city" class="form-select">
+                                    <option value="">All Cities</option>
+                                    {% for city_item in cities %}
+                                    <option value="{{ city_item }}" {% if current_city == city_item %}selected{% endif %}>
+                                        {{ city_item }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-filter me-2"></i>Filter Projects
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Grid -->
+<section class="py-5">
+    <div class="container">
+        {% if projects %}
+        <div class="row g-4">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="portfolio-card card border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="portfolio-image position-relative">
+                        <img src="{{ url_for('static', filename='images/portfolio/' + project.featured_image) }}"
+                             class="card-img-top" alt="{{ project.title }}"
+                             style="height: 250px; object-fit: cover;">
+
+                        <!-- City Type Badge -->
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="city-badge badge-{{ project.city_type }}">
+                                {{ project.city_type|upper }}
+                            </span>
+                        </div>
+
+                        <!-- Budget Badge -->
+                        <div class="position-absolute bottom-0 start-0 m-3">
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-rupee-sign me-1"></i>{{ project.budget }}
+                            </span>
+                        </div>
+
+                        <!-- View Button -->
+                        <div class="portfolio-overlay">
+                            <a href="{{ url_for('project_detail', slug=project.slug) }}" class="btn btn-light">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ project.title }}</h5>
+                            <span class="badge bg-primary">{{ project.category|title }}</span>
+                        </div>
+
+                        <p class="card-text text-muted small">{{ project.description[:100] }}...</p>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ project.city }}
+                                </small>
+                            </div>
+                            <div class="col-6 text-end">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    {{ project.event_date.strftime('%b %Y') if project.event_date else 'Recent' }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Materials Used -->
+                        {% if project.materials_used %}
+                        <div class="mb-3">
+                            <h6 class="text-primary small mb-2">Materials Used:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% set materials = project.materials_used.split(',') %}
+                                {% for material in materials[:3] %}
+                                <span class="badge bg-light text-dark">{{ material.strip() }}</span>
+                                {% endfor %}
+                                {% if materials|length > 3 %}
+                                <span class="badge bg-light text-dark">+{{ materials|length - 3 }} more</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('project_detail', slug=project.slug) }}" class="btn btn-sm btn-outline-primary">
+                                Full Details
+                            </a>
+                            <a href="{{ url_for('quote') }}?category={{ project.category }}&city={{ project.city }}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fas fa-quote-left me-1"></i>Get Similar Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- No Results Message -->
+        {% else %}
+        <div class="text-center py-5">
+            <div class="empty-state">
+                <i class="fas fa-images fa-4x text-muted mb-4"></i>
+                <h4>No Projects Found</h4>
+                <p class="text-muted mb-4">Try changing your filter criteria</p>
+                <a href="{{ url_for('portfolio') }}" class="btn btn-primary">
+                    <i class="fas fa-times me-2"></i>Clear Filters
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <h2 class="display-4 fw-bold">500+</h2>
+                <p class="mb-0">Events Decorated</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-4 fw-bold">50+</h2>
+                <p class="mb-0">Cities Served</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-4 fw-bold">450+</h2>
+                <p class="mb-0">Happy Clients</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="display-4 fw-bold">100%</h2>
+                <p class="mb-0">Satisfaction Rate</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cities We Serve -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Cities <span class="text-primary">We Serve</span></h2>
+            <p class="text-muted">Providing decoration services across India</p>
+        </div>
+
+        <div class="row g-3">
+            <!-- Metro Cities -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Metro Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Mumbai</li>
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Delhi/NCR</li>
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Bangalore</li>
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Hyderabad</li>
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Chennai</li>
+                            <li class="mb-2"><i class="fas fa-city text-dark me-2"></i>Kolkata</li>
+                            <li><i class="fas fa-city text-dark me-2"></i>Pune</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tier 2 Cities -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Tier 2 Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-building text-primary me-2"></i>Jaipur</li>
+                            <li class="mb-2"><i class="fas fa-building text-primary me-2"></i>Lucknow</li>
+                            <li class="mb-2"><i class="fas fa-building text-primary me-2"></i>Ahmedabad</li>
+                            <li class="mb-2"><i class="fas fa-building text-primary me-2"></i>Chandigarh</li>
+                            <li class="mb-2"><i class="fas fa-building text-primary me-2"></i>Kochi</li>
+                            <li><i class="fas fa-building text-primary me-2"></i>Visakhapatnam</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tier 3 Cities -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Tier 3 Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-home text-success me-2"></i>Indore</li>
+                            <li class="mb-2"><i class="fas fa-home text-success me-2"></i>Bhopal</li>
+                            <li class="mb-2"><i class="fas fa-home text-success me-2"></i>Nagpur</li>
+                            <li class="mb-2"><i class="fas fa-home text-success me-2"></i>Patna</li>
+                            <li class="mb-2"><i class="fas fa-home text-success me-2"></i>Ranchi</li>
+                            <li><i class="fas fa-home text-success me-2"></i>Guwahati</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Other Cities -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Local Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3">We serve <strong>all cities</strong> across India including:</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-warning me-2"></i>All District Headquarters</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt text-warning me-2"></i>Towns & Villages</li>
+                            <li><i class="fas fa-map-marker-alt text-warning me-2"></i>Destination Weddings</li>
+                        </ul>
+                        <div class="mt-3">
+                            <small class="text-muted">*Contact us for your specific city</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Like Our Work?</h3>
+                <p class="mb-0">Get similar decoration for your event. Share your requirements and we'll create magic!</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('quote') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-magic me-2"></i>Create Magic for My Event
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.portfolio-card {
+    transition: transform 0.3s;
+}
+.portfolio-card:hover {
+    transform: translateY(-5px);
+}
+.portfolio-image {
+    overflow: hidden;
+}
+.portfolio-image img {
+    transition: transform 0.5s;
+}
+.portfolio-card:hover .portfolio-image img {
+    transform: scale(1.05);
+}
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.portfolio-card:hover .portfolio-overlay {
+    opacity: 1;
+}
+.empty-state {
+    padding: 60px 20px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block body_class %}admin-theme{% endblock %}
+
+{% block content %}
+<section class="section-padding" style="margin-top: 50px; background-color: var(--bg-ivory); min-height: 90vh; transition: var(--transition);">
+    <div class="container">
+        <!-- Back link & Title -->
+        <div style="margin-bottom: 40px; border-bottom: 1px solid var(--border-gold); padding-bottom: 25px;" data-aos="fade-up">
+            <a href="{{ url_for('main.admin_dashboard') }}" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Dashboard</a>
+            <h1 class="font-serif" style="margin-top: 20px; font-size: 2.8rem; color: var(--gold); letter-spacing: 2px;">Manage Client Reviews</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">Publish family reviews, star ratings, and milestone photos to build brand trust on the homepage.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 50px; align-items: start;">
+            <!-- Add Testimonial Form Panel -->
+            <div class="form-card" data-aos="fade-right" style="position: sticky; top: 100px; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold); padding: 40px 30px; border-radius: 12px; margin-bottom: 30px;">
+                <h3 class="font-serif" style="margin-bottom: 25px; color: var(--gold); font-size: 1.6rem; border-bottom: 1px solid rgba(197, 168, 90, 0.1); padding-bottom: 15px; letter-spacing: 1px;">Add Testimonial</h3>
+                
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Client Name *</label>
+                        {{ form.name(class="form-control", placeholder="e.g. Shalini Singhal", style="background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                        {% for error in form.name.errors %}
+                            <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">City Location</label>
+                            {{ form.city(class="form-control", placeholder="e.g. Noida", style="background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                            {% for error in form.city.errors %}
+                                <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Event Styled</label>
+                            {{ form.event_name(class="form-control", placeholder="e.g. Royal Wedding Decor", style="background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                            {% for error in form.event_name.errors %}
+                                <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Star Rating *</label>
+                            {{ form.rating(class="form-control", style="background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                            {% for error in form.rating.errors %}
+                                <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Client Portrait</label>
+                            {{ form.image(class="form-control", style="background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                            {% for error in form.image.errors %}
+                                <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="color: var(--gold-light); font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Review Text *</label>
+                        {{ form.text(class="form-control", placeholder="What did the client say about their decoration and overall coordination?", style="height: 100px; background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 168, 90, 0.2); color: #fff;") }}
+                        {% for error in form.text.errors %}
+                            <span style="color: #FF6B6B; font-size: 0.85rem; margin-top: 5px; display: block;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn-gold" style="width: 100%; font-weight: 700; letter-spacing: 1.5px; padding: 14px 20px; margin-top: 15px;">Publish Testimonial</button>
+                </form>
+            </div>
+
+            <!-- Testimonials List Grid -->
+            <div data-aos="fade-left">
+                <div class="admin-card" style="padding: 40px; margin: 0; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+                    <h3 class="font-serif" style="margin-bottom: 25px; color: var(--gold); font-size: 1.6rem; border-bottom: 1px solid rgba(197, 168, 90, 0.1); padding-bottom: 15px; letter-spacing: 1px;">Published Testimonials</h3>
+                    
+                    <div style="display: grid; gap: 20px;">
+                        {% if testimonials %}
+                            {% for item in testimonials %}
+                            <div style="background: rgba(255, 255, 255, 0.02); border-radius: 8px; border: 1px solid rgba(197, 168, 90, 0.15); padding: 25px; display: flex; gap: 20px; align-items: start; position: relative; transition: 0.3s;" onmouseover="this.style.borderColor='var(--gold)';" onmouseout="this.style.borderColor='rgba(197, 168, 90, 0.15)';">
+                                {% if item.image %}
+                                    <img src="{{ item.image }}" alt="{{ item.name }}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); flex-shrink: 0;">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="{{ item.name }}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); flex-shrink: 0;">
+                                {% endif %}
+                                
+                                <div style="flex-grow: 1;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                        <div>
+                                            <h4 class="font-serif" style="margin: 0; font-size: 1.2rem; color: var(--gold); letter-spacing: 1px;">{{ item.name }}</h4>
+                                            <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 1px;">{{ item.event_name or 'Royal Celebration' }} | {{ item.city or 'India' }}</span>
+                                        </div>
+                                        <div style="color: var(--gold); font-size: 0.8rem;">
+                                            {% for i in range(item.rating) %}<i class="fas fa-star"></i>{% endfor %}
+                                            {% for i in range(5 - item.rating) %}<i class="far fa-star"></i>{% endfor %}
+                                        </div>
+                                    </div>
+                                    <p style="font-size: 0.92rem; color: #fff; line-height: 1.6; font-style: italic; opacity: 0.95;">"{{ item.text }}"</p>
+                                    
+                                    <a href="{{ url_for('main.delete_testimonial', item_id=item.id) }}" onclick="return confirm('Are you sure you want to delete this testimonial?');" style="color: #FF6B6B; text-decoration: none; font-size: 0.8rem; font-weight: 600; display: inline-block; margin-top: 15px; transition: 0.3s;" onmouseover="this.style.color='#FF8787'" onmouseout="this.style.color='#FF6B6B'"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Delete Review</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p style="text-align: center; color: var(--text-muted); padding: 40px 0;">No client reviews published. Use the left panel form to add one.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

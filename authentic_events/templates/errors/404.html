@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-padding" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; background-color: var(--bg-ivory);">
+    <div class="container" data-aos="zoom-in">
+        <div style="font-size: 8rem; line-height: 1; color: var(--gold); font-family: 'Playfair Display', serif; font-weight: 900; margin-bottom: 20px;">404</div>
+        <h2 class="font-serif" style="font-size: 2.8rem; color: var(--maroon); margin-bottom: 20px;">Page Not Found</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 40px; line-height: 1.8;">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let us guide you back to safety.</p>
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <a href="{{ url_for('main.home') }}" class="btn-maroon">Back to Home</a>
+            <a href="{{ url_for('main.booking') }}" class="btn-gold">Book Consultation</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

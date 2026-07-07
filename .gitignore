@@ -1,0 +1,33 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite Database / Instance
+instance/
+authentic_events/instance/
+*.db
+*.sqlite
+
+# IDE Configurations
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Environment Variables
+.env
+.flaskenv
+
+# OS Files
+.DS_Store
+Thumbs.db

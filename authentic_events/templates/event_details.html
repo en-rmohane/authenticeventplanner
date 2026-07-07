@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-padding" style="margin-top: 50px;">
+    <div class="container">
+        <div style="margin-bottom: 50px;">
+            <a href="{{ url_for('main.gallery' ) }}" style="color: var(--gold);"><i class="fas fa-arrow-left"></i> Back to Gallery</a>
+            <h1 class="premium-font" style="font-size: 3.5rem; margin-top: 20px;">{{ event.title }}</h1>
+            <p style="color: var(--gold); font-size: 1.2rem;">{{ event.category.name }}</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 60px;">
+            <!-- Event Details -->
+            <div>
+                <div style="border-radius: 20px; overflow: hidden; margin-bottom: 40px; border: 1px solid var(--glass-border);">
+                    <img src="{{ url_for('static', filename='uploads/' + event.featured_image) if event.featured_image else 'https://via.placeholder.com/1200x800' }}" alt="{{ event.title }}" style="width: 100%; height: 600px; object-fit: cover;">
+                </div>
+                
+                <h3 class="premium-font" style="margin-bottom: 20px;">Project Overview</h3>
+                <p style="color: var(--text-gray); font-size: 1.1rem; line-height: 1.8;">{{ event.description }}</p>
+                
+                {% if event.get_gallery() %}
+                <h3 class="premium-font" style="margin: 40px 0 20px;">Event Gallery</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    {% for img in event.get_gallery() %}
+                    <img src="{{ url_for('static', filename='uploads/' + img) }}" style="width: 100%; border-radius: 15px; border: 1px solid var(--glass-border);">
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar Info -->
+            <aside>
+                <div style="background: var(--bg-accent); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); position: sticky; top: 120px;">
+                    <h3 class="premium-font" style="margin-bottom: 30px;">Event Summary</h3>
+                    
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                        <h4 style="color: var(--gold); font-size: 0.9rem; text-transform: uppercase;">Client</h4>
+                        <p>{{ event.client_name or 'Private Client' }}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                        <h4 style="color: var(--gold); font-size: 0.9rem; text-transform: uppercase;">Date</h4>
+                        <p>{{ event.event_date.strftime('%B %d, %Y') if event.event_date else 'TBD' }}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+                        <h4 style="color: var(--gold); font-size: 0.9rem; text-transform: uppercase;">Budget Category</h4>
+                        <p>{{ event.budget or 'Premium' }}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 35px;">
+                        <h4 style="color: var(--gold); font-size: 0.9rem; text-transform: uppercase;">Location</h4>
+                        <p>India</p>
+                    </div>
+                    
+                    <a href="{{ url_for('main.contact') }}" class="btn-gold" style="display: block; text-align: center;">Book Similar Event</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block title %}Thank You - Quote Request Received - {{ company_name }}{% endblock %}
+
+{% block meta_description %}Thank you for your quote request. We'll contact you within 24 hours with detailed quotation for your event decoration.{% endblock %}
+
+{% block content %}
+<!-- Success Header -->
+<section class="py-5" style="background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="success-icon mb-4">
+                    <i class="fas fa-check-circle fa-5x text-white"></i>
+                </div>
+                <h1 class="display-5 fw-bold">Thank You!</h1>
+                <p class="lead">Your quote request has been received successfully.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Confirmation Details -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="text-center mb-5">
+                            <h2 class="section-title">Request <span class="text-primary">Confirmed</span></h2>
+                            <p class="text-muted">Here's what happens next</p>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-4 text-center">
+                                <div class="step-icon mb-3">
+                                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                                         style="width: 80px; height: 80px;">
+                                        <i class="fas fa-phone-alt fa-2x"></i>
+                                    </div>
+                                </div>
+                                <h5>Initial Contact</h5>
+                                <p class="text-muted small">We'll call you within <strong>2 hours</strong> to discuss your requirements.</p>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <div class="step-icon mb-3">
+                                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                                         style="width: 80px; height: 80px;">
+                                        <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                                    </div>
+                                </div>
+                                <h5>Detailed Quote</h5>
+                                <p class="text-muted small">Receive comprehensive quotation within <strong>24 hours</strong>.</p>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <div class="step-icon mb-3">
+                                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                                         style="width: 80px; height: 80px;">
+                                        <i class="fas fa-calendar-check fa-2x"></i>
+                                    </div>
+                                </div>
+                                <h5>Final Booking</h5>
+                                <p class="text-muted small">Confirm booking with advance payment to secure your date.</p>
+                            </div>
+                        </div>
+
+                        <!-- Estimated Price (if available) -->
+                        {% if estimate %}
+                        <div class="alert alert-success mt-5">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-rupee-sign fa-2x"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h4 class="alert-heading">Estimated Budget</h4>
+                                    <p class="mb-0">Based on your initial information, your estimated budget is approximately <strong>₹{{ estimate|int|format_number }}</strong>.</p>
+                                    <small class="text-muted">*Final quote may vary based on detailed requirements.</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Contact Information -->
+                        <div class="mt-5">
+                            <h4 class="text-center mb-4">Need Immediate Assistance?</h4>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="card border-0 text-center h-100">
+                                        <div class="card-body">
+                                            <i class="fas fa-phone-alt fa-2x text-primary mb-3"></i>
+                                            <h5>Call Us</h5>
+                                            <p class="text-muted small mb-2">{{ contact_phone }}</p>
+                                            <a href="tel:{{ contact_phone }}" class="btn btn-sm btn-outline-primary">Call Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="card border-0 text-center h-100">
+                                        <div class="card-body">
+                                            <i class="fab fa-whatsapp fa-2x text-success mb-3"></i>
+                                            <h5>WhatsApp</h5>
+                                            <p class="text-muted small mb-2">Quick response</p>
+                                            <a href="https://wa.me/{{ contact_whatsapp }}" target="_blank" class="btn btn-sm btn-success">Chat Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="card border-0 text-center h-100">
+                                        <div class="card-body">
+                                            <i class="fas fa-envelope fa-2x text-warning mb-3"></i>
+                                            <h5>Email</h5>
+                                            <p class="text-muted small mb-2">{{ contact_email }}</p>
+                                            <a href="mailto:{{ contact_email }}" class="btn btn-sm btn-outline-warning">Email Us</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">What You Can Do Now</h4>
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-images text-primary mt-1"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6>Browse Portfolio</h6>
+                                        <p class="small text-muted mb-0">Look at our previous work for inspiration</p>
+                                        <a href="{{ url_for('portfolio') }}" class="btn btn-sm btn-link p-0">View Portfolio →</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-rupee-sign text-primary mt-1"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6>Check Pricing</h6>
+                                        <p class="small text-muted mb-0">Understand our pricing structure</p>
+                                        <a href="{{ url_for('pricing') }}" class="btn btn-sm btn-link p-0">View Pricing →</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6>Read FAQs</h6>
+                                        <p class="small text-muted mb-0">Find answers to common questions</p>
+                                        <a href="{{ url_for('contact') }}#faq" class="btn btn-sm btn-link p-0">View FAQs →</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-calendar-alt text-primary mt-1"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6>Check Availability</h6>
+                                        <p class="small text-muted mb-0">Contact us for date availability</p>
+                                        <a href="https://wa.me/{{ contact_whatsapp }}?text=Hi!%20I%20just%20submitted%20a%20quote%20request.%20Can%20you%20check%20availability%20for%20my%20date?"
+                                           target="_blank" class="btn btn-sm btn-link p-0">Check Now →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our <span class="text-primary">Process</span></h2>
+            <p class="text-muted">From inquiry to execution</p>
+        </div>
+
+        <div class="timeline-horizontal">
+            <div class="timeline-step">
+                <div class="timeline-number">1</div>
+                <h5>Quote Request</h5>
+                <p class="small text-muted">You submit requirements</p>
+                <span class="timeline-status current"><i class="fas fa-check"></i> Completed</span>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-number">2</div>
+                <h5>Initial Contact</h5>
+                <p class="small text-muted">We call to discuss details</p>
+                <span class="timeline-status upcoming">Upcoming</span>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-number">3</div>
+                <h5>Detailed Quote</h5>
+                <p class="small text-muted">Receive comprehensive quote</p>
+                <span class="timeline-status upcoming">Upcoming</span>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-number">4</div>
+                <h5>Design & Planning</h5>
+                <p class="small text-muted">Custom design creation</p>
+                <span class="timeline-status upcoming">Upcoming</span>
+            </div>
+
+            <div class="timeline-step">
+                <div class="timeline-number">5</div>
+                <h5>Execution</h5>
+                <p class="small text-muted">Event day decoration</p>
+                <span class="timeline-status upcoming">Upcoming</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Have More Questions?</h3>
+                <p class="mb-0">Feel free to contact us anytime. We're here to help!</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('contact') }}" class="btn btn-warning btn-lg">
+                    <i class="fas fa-headset me-2"></i>Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.success-icon {
+    animation: bounce 1s infinite alternate;
+}
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+.step-icon {
+    transition: transform 0.3s;
+}
+.step-icon:hover {
+    transform: scale(1.1);
+}
+.timeline-horizontal {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.timeline-horizontal:before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-color);
+    z-index: 1;
+}
+.timeline-step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    padding: 0 10px;
+}
+.timeline-number {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+    border: 5px solid white;
+}
+.timeline-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+}
+.timeline-status.current {
+    background: var(--primary-color);
+    color: white;
+}
+.timeline-status.upcoming {
+    background: #e9ecef;
+    color: #6c757d;
+}
+@media (max-width: 768px) {
+    .timeline-horizontal {
+        flex-direction: column;
+    }
+    .timeline-horizontal:before {
+        display: none;
+    }
+    .timeline-step {
+        margin-bottom: 30px;
+    }
+}
+</style>
+{% endblock %}

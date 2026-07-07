@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block body_class %}admin-theme{% endblock %}
+
+{% block content %}
+<section class="section-padding" style="margin-top: 50px; background-color: var(--bg-ivory); min-height: 90vh; transition: var(--transition);">
+    <div class="container">
+        <!-- Back Link and Title -->
+        <div style="margin-bottom: 40px; border-bottom: 1px solid var(--border-gold); padding-bottom: 25px;" data-aos="fade-up">
+            <a href="{{ url_for('main.admin_dashboard') }}" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Dashboard</a>
+            <h1 class="font-serif" style="margin-top: 20px; font-size: 2.8rem; color: var(--gold); letter-spacing: 2px;">Manage Event Enquiries</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">View all incoming event bookings, general requests, and update their pipeline execution status.</p>
+        </div>
+
+        <div style="display: grid; gap: 40px;" data-aos="fade-up" data-aos-delay="100">
+            {% if enquiries %}
+                {% for enquiry in enquiries %}
+                <div class="admin-card" style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; padding: 40px; margin: 0; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold); border-radius: 12px; position: relative; overflow: hidden;">
+                    
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold-gradient); opacity: 0.7;"></div>
+
+                    <!-- Details Column -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
+                            <h3 class="font-serif" style="margin: 0; font-size: 1.8rem; color: var(--gold); letter-spacing: 1px;">{{ enquiry.name }}</h3>
+                            <span class="badge {% if enquiry.status == 'Pending' %}badge-pending{% elif enquiry.status == 'Confirmed' %}badge-confirmed{% else %}badge-completed{% endif %}" style="padding: 6px 16px; font-size: 0.8rem; border: 1px solid currentColor; background: transparent;">
+                                {{ enquiry.status }}
+                            </span>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-envelope" style="color: var(--gold); width: 25px;"></i> {{ enquiry.email }}</p>
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-phone" style="color: var(--gold); width: 25px;"></i> {{ enquiry.phone }}</p>
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-calendar-day" style="color: var(--gold); width: 25px;"></i> {{ enquiry.event_date.strftime('%B %d, %Y') if enquiry.event_date else 'Not Specified' }}</p>
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-users" style="color: var(--gold); width: 25px;"></i> Guests: {{ enquiry.guest_count or 'N/A' }}</p>
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-wallet" style="color: var(--gold); width: 25px;"></i> Budget: {{ enquiry.budget or 'N/A' }}</p>
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;"><i class="fas fa-ring" style="color: var(--gold); width: 25px;"></i> Event: {{ enquiry.event_type }}</p>
+                        </div>
+                        
+                        <div style="background: rgba(255, 255, 255, 0.02); padding: 25px; border-radius: 6px; border: 1px solid rgba(197, 168, 90, 0.15);">
+                            <h4 class="font-serif" style="font-size: 0.85rem; color: var(--gold-light); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Message / Styling Requests:</h4>
+                            <p style="color: var(--admin-text); margin: 0; font-size: 0.95rem; white-space: pre-line; line-height: 1.6;">{{ enquiry.message }}</p>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 15px;">Received on: {{ enquiry.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </div>
+                    
+                    <!-- Actions Column -->
+                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 15px; border-left: 1px solid rgba(197, 168, 90, 0.15); padding-left: 40px;">
+                        <h4 class="font-serif" style="font-size: 0.9rem; color: var(--gold); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Update Pipeline Status:</h4>
+                        
+                        {% if enquiry.status != 'Pending' %}
+                        <a href="{{ url_for('main.update_enquiry_status', enquiry_id=enquiry.id, status='Pending') }}" class="btn-maroon" style="padding: 10px; text-align: center; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">Set as Pending</a>
+                        {% endif %}
+                        
+                        {% if enquiry.status != 'Confirmed' %}
+                        <a href="{{ url_for('main.update_enquiry_status', enquiry_id=enquiry.id, status='Confirmed') }}" class="btn-gold" style="padding: 10px; text-align: center; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; color: var(--maroon-dark);">Confirm Booking</a>
+                        {% endif %}
+                        
+                        {% if enquiry.status != 'Completed' %}
+                        <a href="{{ url_for('main.update_enquiry_status', enquiry_id=enquiry.id, status='Completed') }}" class="btn-maroon" style="padding: 10px; text-align: center; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">Mark Completed</a>
+                        {% endif %}
+                        
+                        <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.05); margin: 10px 0;">
+                        
+                        <a href="{{ url_for('main.delete_enquiry', enquiry_id=enquiry.id) }}" onclick="return confirm('Are you sure you want to delete this enquiry permanently?');" style="text-align: center; font-size: 0.82rem; color: #FF6B6B; text-decoration: none; font-weight: 600; transition: 0.3s;" onmouseover="this.style.color='#FF8787'" onmouseout="this.style.color='#FF6B6B'"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Delete Record</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="admin-card" style="text-align: center; padding: 80px 20px; background: rgba(21, 20, 21, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-gold);">
+                    <i class="fas fa-envelope-open" style="font-size: 4rem; color: var(--gold); margin-bottom: 20px; opacity: 0.8;"></i>
+                    <h3 class="font-serif" style="color: var(--gold); font-size: 1.8rem; margin: 0 0 10px 0; letter-spacing: 1px;">No Enquiries Found</h3>
+                    <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto; font-size: 0.95rem;">When users fill out booking requests or contact forms on the website, they will appear here in chronological order.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

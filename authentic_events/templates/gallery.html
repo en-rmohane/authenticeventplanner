@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1507504038482-7621ef58d665?auto=format&fit=crop&q=80&w=1920');">
+    <div class="container">
+        <p data-aos="fade-up">Authentic Event Planner</p>
+        <h1 class="font-serif" data-aos="fade-up" data-aos-delay="200">The Gallery of Dreams</h1>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="section-padding">
+    <div class="container">
+        <!-- Filter Categories -->
+        <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;" data-aos="fade-up">
+            <button class="filter-btn active" data-filter="all">All Events</button>
+            {% for category in categories %}
+            <button class="filter-btn" data-filter="{{ category.slug }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" data-aos="fade-up" data-aos-delay="200">
+            {% if media %}
+                {% for item in media %}
+                <div class="gallery-item {% if loop.index % 3 == 0 %}tall{% elif loop.index % 5 == 0 %}wide{% endif %}" data-category="{{ item.category.slug if item.category else 'wedding' }}">
+                    <img src="{{ item.image_path }}" alt="{{ item.caption }}">
+                    <div class="gallery-overlay">
+                        <h3>{{ item.caption }}</h3>
+                        <p>{{ item.category.name if item.category else "Special Setup" }}</p>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Sample Gallery Items if empty -->
+                {% for i in range(12) %}
+                <div class="gallery-item {% if i % 4 == 0 %}tall{% elif i % 6 == 0 %}wide{% endif %}" data-category="wedding">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Exquisite Floral Design Setup">
+                    <div class="gallery-overlay">
+                        <h3>Grand Floral Arch</h3>
+                        <p>Weddings</p>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal Container -->
+<div id="lightbox-modal" class="lightbox-modal">
+    <div class="lightbox-content">
+        <span class="lightbox-close"><i class="fas fa-times"></i></span>
+        <img id="lightbox-img" src="" alt="Lightbox Zoom">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+</div>
+{% endblock %}

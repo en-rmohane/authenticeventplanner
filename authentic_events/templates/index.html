@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <video autoplay muted loop playsinline class="video-background" poster="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-wedding-venue-decoration-44177-large.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <h1 data-aos="fade-up">Crafting Royal & <span>Exquisite Events</span></h1>
+        <p data-aos="fade-up" data-aos-delay="200">Exquisite Decoration. Timeless Aesthetics. Flawless Planning.</p>
+        <div data-aos="fade-up" data-aos-delay="400" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ url_for('main.booking') }}" class="btn-gold" style="padding: 16px 36px;">Book Free Consultation</a>
+            <a href="{{ url_for('main.services') }}" class="btn-maroon" style="padding: 16px 36px; border-color: var(--text-white); color: var(--text-white);">View Services</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="section-padding stats-section">
+    <div class="container stats-grid">
+        <div class="stat-item" data-aos="zoom-in">
+            <h2 class="font-serif"><span class="counter-value" data-target="{{ stats.events_completed }}">0</span>+</h2>
+            <p>Events Completed</p>
+        </div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+            <h2 class="font-serif"><span class="counter-value" data-target="{{ stats.happy_clients }}">0</span>+</h2>
+            <p>Happy Clients</p>
+        </div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+            <h2 class="font-serif"><span class="counter-value" data-target="{{ stats.experience_years }}">0</span>+</h2>
+            <p>Years of Experience</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section Intro -->
+<section class="section-padding" style="background-color: var(--bg-card);">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 60px; align-items: center;">
+            <div data-aos="fade-right">
+                <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Welcome to Authentic Events</h4>
+                <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2; margin-bottom: 25px;">Creating Majestic Moments Out Of Your Grand Vision</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">At Authentic Event Planner, we believe every event should be a masterpiece of design and execution. Combining royal color palettes, exquisite floral details, and precision management, we create experiences that live forever in memory.</p>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Whether it is a luxurious wedding, a vibrant milestone birthday, or a grand corporate function, our team handles details with royal standards.</p>
+                <a href="{{ url_for('main.about') }}" class="btn-maroon">Our Whole Story</a>
+            </div>
+            <div data-aos="fade-left" style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800" alt="Authentic Events Entry Setup" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-gold); box-shadow: var(--box-shadow-hover);">
+                <div style="position: absolute; bottom: -20px; right: -20px; background: var(--maroon); color: var(--text-white); padding: 25px 35px; border-radius: 4px; border-top: 3px solid var(--gold); box-shadow: var(--box-shadow);">
+                    <h3 class="font-serif" style="color: var(--gold-light); margin: 0; font-size: 1.8rem;">Royal Quality</h3>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem; text-transform: uppercase; margin-top: 5px;">Guaranteed Excellence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section Preview -->
+<section class="section-padding">
+    <div class="container">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+            <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">What We Offer</h4>
+            <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2;">Bespoke Services For Every Occasion</h2>
+        </div>
+        <div class="service-grid">
+            {% for category in categories %}
+            <div class="service-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                {% if category.slug == 'wedding' %}
+                    <i class="fas fa-ring"></i>
+                {% elif category.slug == 'birthday' %}
+                    <i class="fas fa-birthday-cake"></i>
+                {% elif category.slug == 'corporate' %}
+                    <i class="fas fa-briefcase"></i>
+                {% elif category.slug == 'engagement' %}
+                    <i class="fas fa-gem"></i>
+                {% elif category.slug == 'babyshower' %}
+                    <i class="fas fa-baby"></i>
+                {% elif category.slug == 'anniversary' %}
+                    <i class="fas fa-glass-cheers"></i>
+                {% elif category.slug == 'festival' %}
+                    <i class="fas fa-holly-berry"></i>
+                {% else %}
+                    <i class="fas fa-sparkles"></i>
+                {% endif %}
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.description or "Premium planning, decorations, layouts, and guest coordination designed with a royal touch." }}</p>
+                <a href="{{ url_for('main.services') }}" style="color: var(--maroon); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; text-decoration: none;">Explore Details <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: 5px; color: var(--gold-dark);"></i></a>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="{{ url_for('main.services') }}" class="btn-gold">View All Packages</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Events Gallery Preview -->
+<section class="section-padding" style="background-color: var(--bg-card);">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Recent Masterpieces</h4>
+                <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2;">Glimpse of Majestic Events</h2>
+            </div>
+            <a href="{{ url_for('main.gallery') }}" class="btn-maroon">Browse Entire Gallery</a>
+        </div>
+        <div class="gallery-grid">
+            {% for item in featured_events %}
+            <div class="gallery-item" data-aos="zoom-in" data-category="{{ item.category.slug if item.category else 'event' }}">
+                <img src="{{ item.image_path }}" alt="{{ item.caption }}">
+                <div class="gallery-overlay">
+                    <h3>{{ item.caption }}</h3>
+                    <p>{{ item.category.name if item.category else 'Special Event' }}</p>
+                    <i class="fas fa-search-plus"></i>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section-padding">
+    <div class="container">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+            <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Testimonials</h4>
+            <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2;">Words of Praise from Happy Clients</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 150 }}">
+                {% if testimonial.image %}
+                    <img src="{{ testimonial.image }}" alt="{{ testimonial.name }}">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="{{ testimonial.name }}">
+                {% endif %}
+                <div class="testimonial-stars">
+                    {% for i in range(testimonial.rating) %}
+                        <i class="fas fa-star"></i>
+                    {% endfor %}
+                    {% for i in range(5 - testimonial.rating) %}
+                        <i class="far fa-star"></i>
+                    {% endfor %}
+                </div>
+                <p>"{{ testimonial.text }}"</p>
+                <h4>{{ testimonial.name }}</h4>
+                <span>{{ testimonial.event_name or "Client" }} | {{ testimonial.city or "India" }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-action Section -->
+<section class="section-padding" style="background: linear-gradient(rgba(10, 17, 40, 0.85), rgba(10, 17, 40, 0.85)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920'); background-size: cover; background-position: center; text-align: center; background-attachment: fixed; position: relative;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); pointer-events: none;"></div>
+    <div class="container" data-aos="zoom-out" style="position: relative; z-index: 1;">
+        <h2 class="font-serif" style="font-size: 3.5rem; margin-bottom: 20px; color: var(--text-white);">Let's Plan Your Regal Celebration</h2>
+        <p style="font-size: 1.15rem; color: rgba(255,255,255,0.9); margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.8;">Our expert designers and coordinators are ready to transform your ideas into reality. Reach out to get a custom styling plan tailored to your budget and aesthetic preferences.</p>
+        <a href="{{ url_for('main.booking') }}" class="btn-gold" style="padding: 16px 45px; font-size: 0.95rem;">Request A Custom Quote</a>
+    </div>
+</section>
+
+<!-- Lightbox Modal Container for Gallery Preview clicks -->
+<div id="lightbox-modal" class="lightbox-modal">
+    <div class="lightbox-content">
+        <span class="lightbox-close"><i class="fas fa-times"></i></span>
+        <img id="lightbox-img" src="" alt="Lightbox Zoom">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+</div>
+{% endblock %}

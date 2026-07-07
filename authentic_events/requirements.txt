@@ -1,0 +1,59 @@
+# Flask Framework
+Flask
+Werkzeug
+
+# Database
+Flask-SQLAlchemy
+Flask-Migrate
+
+# Forms & Validation
+Flask-WTF
+email-validator
+WTForms
+
+# Email
+Flask-Mail
+
+# File Upload & Image Processing
+Pillow
+
+# Environment Variables
+python-dotenv
+
+# Security
+Flask-Login
+Flask-Bcrypt
+Flask-CORS
+
+# Date & Time
+python-dateutil
+
+# JSON Web Tokens (Optional for API)
+PyJWT
+
+# Caching (Optional)
+Flask-Caching
+
+# Development Tools (Development only - remove for production)
+Flask-DebugToolbar
+
+# Testing
+pytest
+pytest-flask
+
+# Production Server (for deployment)
+gunicorn
+gevent
+
+# Database Drivers
+# For SQLite (default) - built-in with Python
+# For PostgreSQL (production):
+# psycopg2-binary
+
+# For MySQL (if needed):
+# mysqlclient
+# pymysql
+
+# Additional Utilities
+requests
+beautifulsoup4

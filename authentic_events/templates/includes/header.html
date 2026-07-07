@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg fixed-top py-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <div class="d-flex align-items-center">
+                <div class="brand-logo me-3">
+                    <div class="bg-primary p-2 rounded-circle shadow-sm">
+                        <i class="fas fa-crown text-gold"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="brand-name fw-bold text-primary">{{ company_name }}</div>
+                    <div class="brand-tagline text-gold opacity-90">{{ slogan }}</div>
+                </div>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('services_page') }}">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('portfolio') }}">Masterpieces</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('pricing') }}">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                <li class="nav-item ms-lg-4 mt-3 mt-lg-0">
+                    <a href="{{ url_for('quote') }}" class="btn btn-warning px-4">
+                        <i class="fas fa-crown me-2"></i> Get Quote
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

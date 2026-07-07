@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}Get Quote - {{ company_name }}{% endblock %}
+
+{% block meta_description %}Get free quote for event decoration services. Wedding, corporate, birthday, festival decorations across India. City-appropriate pricing.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(139, 69, 19, 0.9), rgba(210, 105, 30, 0.9)), url('{{ url_for('static', filename='images/quote-bg.jpg') }}'); background-size: cover; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold">Get Your Free Quote</h1>
+                <p class="lead">Fill this form and get detailed quotation within 24 hours</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="text-center mb-5">
+                            <h2 class="section-title">Event <span class="text-primary">Details Form</span></h2>
+                            <p class="text-muted">Please provide your event details for accurate quotation</p>
+                        </div>
+
+                        <form method="POST" action="{{ url_for('quote') }}">
+                            {{ form.hidden_tag() }}
+
+                            <div class="row g-4">
+                                <!-- Personal Information -->
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.name(class="form-control", id="name", placeholder="Your Name") }}
+                                        <label for="name">Full Name *</label>
+                                        {% for error in form.name.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.phone(class="form-control", id="phone", placeholder="Mobile Number") }}
+                                        <label for="phone">WhatsApp/Mobile Number *</label>
+                                        {% for error in form.phone.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- City Information -->
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.city(class="form-control", id="city", placeholder="Your City") }}
+                                        <label for="city">City *</label>
+                                        <small class="text-muted">We'll determine city type automatically</small>
+                                        {% for error in form.city.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.event_type(class="form-select", id="eventType") }}
+                                        <label for="eventType">Event Type *</label>
+                                        {% for error in form.event_type.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- Event Details -->
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.event_date(class="form-control", id="eventDate", type="date", placeholder="Event Date") }}
+                                        <label for="eventDate">Tentative Event Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.budget_range(class="form-select", id="budgetRange") }}
+                                        <label for="budgetRange">Approximate Budget *</label>
+                                        {% for error in form.budget_range.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- If Detailed Form -->
+                                {% if form.email %}
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.email(class="form-control", id="email", placeholder="Email Address") }}
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.guest_count(class="form-control", id="guestCount", placeholder="Guest Count") }}
+                                        <label for="guestCount">Expected Guest Count</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.venue_type(class="form-select", id="venueType") }}
+                                        <label for="venueType">Venue Type</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.venue_name(class="form-control", id="venueName", placeholder="Venue Name") }}
+                                        <label for="venueName">Venue Name/Location</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        {{ form.color_theme(class="form-control", id="colorTheme", placeholder="Color Theme") }}
+                                        <label for="colorTheme">Preferred Color Theme/Colors</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        {{ form.specific_requirements(class="form-control", id="requirements", placeholder="Specific Requirements", style="height: 100px") }}
+                                        <label for="requirements">Specific Requirements/Details</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.referral_source(class="form-select", id="referralSource") }}
+                                        <label for="referralSource">How did you hear about us?</label>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    {% if form.email %}Submit Detailed Quote Request{% else %}Get Free Quote{% endif %}
+                                </button>
+                                <p class="text-muted small mt-2">
+                                    *We'll contact you within 24 hours with detailed quotation
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Contact -->
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 bg-light">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 text-center mb-3 mb-md-0">
+                                <div class="d-inline-block p-4 bg-white rounded shadow-sm">
+                                    <i class="fas fa-phone-alt fa-3x text-primary mb-3"></i>
+                                    <h5>Call Us Directly</h5>
+                                    <a href="tel:{{ contact_phone }}" class="btn btn-outline-primary mt-2">
+                                        <i class="fas fa-phone me-2"></i>{{ contact_phone }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="d-inline-block p-4 bg-white rounded shadow-sm">
+                                    <i class="fab fa-whatsapp fa-3x text-success mb-3"></i>
+                                    <h5>WhatsApp Us</h5>
+                                    <a href="https://wa.me/{{ contact_whatsapp }}" target="_blank" class="btn btn-success mt-2">
+                                        <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Timeline -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our <span class="text-primary">Quote Process</span></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-icon">1</div>
+                        <h5>Submit Form</h5>
+                        <p>Fill the quote request form with your event details</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-icon">2</div>
+                        <h5>Initial Contact</h5>
+                        <p>We'll call/WhatsApp you within 2 hours</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-icon">3</div>
+                        <h5>Detailed Discussion</h5>
+                        <p>Understand your requirements in detail</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-icon">4</div>
+                        <h5>Custom Quote</h5>
+                        <p>Receive detailed quotation within 24 hours</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-icon">5</div>
+                        <h5>Finalize & Book</h5>
+                        <p>Make changes if needed and confirm booking</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Get Quote From Us -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="section-title">Why Get Quote from <span class="text-primary">Authentic Events</span></h2>
+
+                <div class="mt-4">
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Transparent Pricing</h5>
+                            <p class="text-muted mb-0">No hidden charges, detailed breakdown provided</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>City-Appropriate Rates</h5>
+                            <p class="text-muted mb-0">Fair pricing based on your location</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Custom Solutions</h5>
+                            <p class="text-muted mb-0">Tailored to your specific requirements</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Free Consultation</h5>
+                            <p class="text-muted mb-0">Expert advice at no cost</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <h4 class="card-title text-center mb-4">Quick Response Guarantee</h4>
+
+                        <div class="text-center mb-4">
+                            <div class="display-4 text-primary">2 Hours</div>
+                            <p class="text-muted">Maximum response time</p>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-phone-alt fa-2x text-primary mb-2"></i>
+                                    <h6>Phone Call</h6>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fab fa-whatsapp fa-2x text-success mb-2"></i>
+                                    <h6>WhatsApp</h6>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-envelope fa-2x text-warning mb-2"></i>
+                                    <h6>Email</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="alert alert-info">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <small><strong>Working Hours:</strong> 9:00 AM - 9:00 PM (All Days)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-color);
+    z-index: 1;
+}
+.timeline-step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+.timeline-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    border: 5px solid white;
+}
+.form-floating > .form-select {
+    padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // City suggestions
+    $('#city').on('input', function() {
+        const query = $(this).val();
+        if (query.length > 2) {
+            $.get('/api/cities', { q: query }, function(suggestions) {
+                // Implement autocomplete if needed
+            });
+        }
+    });
+
+    // Show city type info
+    $('#city').on('blur', function() {
+        const city = $(this).val();
+        if (city) {
+            $.get('/api/calculate_quick', { city: city }, function(data) {
+                if (data.city_type) {
+                    const cityType = data.city_type;
+                    const cityTypeText = {
+                        'metro': 'Metro City',
+                        'tier2': 'Tier 2 City',
+                        'tier3': 'Tier 3 City',
+                        'local': 'Local City'
+                    }[cityType];
+
+                    // Show city type info
+                    if (!$('#cityTypeInfo').length) {
+                        $('#city').after('<div id="cityTypeInfo" class="alert alert-info mt-2 small"></div>');
+                    }
+                    $('#cityTypeInfo').html(`
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>${cityTypeText}</strong> - Estimated price range for standard decoration: ${data.range}
+                    `);
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

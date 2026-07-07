@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing - {{ company_name }}{% endblock %}
+
+{% block meta_description %}Transparent pricing for event decoration services across India. City-wise pricing: Metro, Tier 3, and Local cities. Wedding, corporate, birthday decoration prices.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(139, 69, 19, 0.8), rgba(210, 105, 30, 0.8)), url('{{ url_for('static', filename='images/pricing-bg.jpg') }}'); background-size: cover; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold">Smart & Transparent Pricing</h1>
+                <p class="lead">Fair prices based on your city and requirements. No hidden charges.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Calculator -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4">Quick Price Estimator</h3>
+
+                        <div class="row g-4">
+                            <!-- City Type Selection -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Select Your City Type</label>
+                                <div class="row g-3">
+                                    {% for city_type, city_name, examples in city_types %}
+                                    <div class="col-6">
+                                        <div class="form-check-card">
+                                            <input class="form-check-input d-none" type="radio" name="cityType"
+                                                   id="city{{ city_type }}" value="{{ city_type }}"
+                                                   {% if city_type == current_city_type %}checked{% endif %}>
+                                            <label class="form-check-label w-100" for="city{{ city_type }}">
+                                                <div class="card text-center h-100">
+                                                    <div class="card-body p-3">
+                                                        <h6>{{ city_name }}</h6>
+                                                        <small class="text-muted d-block">
+                                                            {% for example in examples[:2] %}
+                                                            {{ example }}{% if not loop.last %}, {% endif %}
+                                                            {% endfor %}
+                                                        </small>
+                                                        <div class="mt-2">
+                                                            {% if city_type == 'metro' %}
+                                                            <span class="badge bg-dark">Premium</span>
+                                                            {% elif city_type == 'tier2' %}
+                                                            <span class="badge bg-primary">Quality</span>
+                                                            {% elif city_type == 'tier3' %}
+                                                            <span class="badge bg-success">Value</span>
+                                                            {% else %}
+                                                            <span class="badge bg-warning text-dark">Budget</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Event Type Selection -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Select Event Type</label>
+                                <div class="row g-3">
+                                    {% for event_key, event_name, event_icon in event_types %}
+                                    <div class="col-6">
+                                        <div class="form-check-card">
+                                            <input class="form-check-input d-none" type="radio" name="eventType"
+                                                   id="event{{ event_key }}" value="{{ event_key }}"
+                                                   {% if event_key == current_event_type %}checked{% endif %}>
+                                            <label class="form-check-label w-100" for="event{{ event_key }}">
+                                                <div class="card text-center h-100">
+                                                    <div class="card-body p-3">
+                                                        <i class="{{ event_icon }} fa-2x text-primary mb-2"></i>
+                                                        <h6 class="mb-0">{{ event_name }}</h6>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Material Grade Selection -->
+                        <div class="mt-4">
+                            <label class="form-label fw-bold">Select Material Grade</label>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="form-check-card">
+                                        <input class="form-check-input d-none" type="radio" name="materialGrade"
+                                               id="materialEconomy" value="economy" checked>
+                                        <label class="form-check-label w-100" for="materialEconomy">
+                                            <div class="card text-center h-100 border-success">
+                                                <div class="card-body p-3">
+                                                    <i class="fas fa-leaf fa-2x material-economy mb-2"></i>
+                                                    <h6>Economy</h6>
+                                                    <small class="text-muted">Budget-friendly materials</small>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check-card">
+                                        <input class="form-check-input d-none" type="radio" name="materialGrade"
+                                               id="materialStandard" value="standard">
+                                        <label class="form-check-label w-100" for="materialStandard">
+                                            <div class="card text-center h-100 border-primary">
+                                                <div class="card-body p-3">
+                                                    <i class="fas fa-star fa-2x material-standard mb-2"></i>
+                                                    <h6>Standard</h6>
+                                                    <small class="text-muted">Good quality materials</small>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check-card">
+                                        <input class="form-check-input d-none" type="radio" name="materialGrade"
+                                               id="materialPremium" value="premium">
+                                        <label class="form-check-label w-100" for="materialPremium">
+                                            <div class="card text-center h-100 border-warning">
+                                                <div class="card-body p-3">
+                                                    <i class="fas fa-crown fa-2x material-premium mb-2"></i>
+                                                    <h6>Premium</h6>
+                                                    <small class="text-muted">High-end/imported materials</small>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calculate Button -->
+                        <div class="text-center mt-4">
+                            <button id="calculatePrice" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-calculator me-2"></i>Calculate Estimated Price
+                            </button>
+                        </div>
+
+                        <!-- Result Display -->
+                        <div id="priceResult" class="mt-4 text-center" style="display: none;">
+                            <div class="alert alert-success border-0">
+                                <h4 class="alert-heading">Estimated Price: <span id="calculatedPrice" class="text-dark"></span></h4>
+                                <p id="priceDescription" class="mb-2"></p>
+                                <p class="small text-muted mb-0">*This is an approximate estimate. Final quote may vary based on specific requirements.</p>
+                                <hr>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <a href="{{ url_for('quote') }}" class="btn btn-primary">
+                                        <i class="fas fa-file-invoice me-2"></i>Get Detailed Quote
+                                    </a>
+                                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">
+                                        <i class="fas fa-phone-alt me-2"></i>Talk to Expert
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Pricing Table -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Detailed <span class="text-primary">Pricing Plans</span></h2>
+            <p class="text-muted">Transparent pricing for {{ current_event_type|title }} in {{ current_city_type|title }} Cities</p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Package</th>
+                        <th>Economy Materials</th>
+                        <th>Standard Materials</th>
+                        <th>Premium Materials</th>
+                        <th>What's Included</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for package, materials in pricing_table.items() %}
+                    <tr>
+                        <td>
+                            <h5 class="mb-1">{{ package|title }} Package</h5>
+                            <small class="text-muted">Perfect for {{ package }} events</small>
+                        </td>
+                        <td>
+                            <h4 class="text-success">₹{{ materials.economy.price|int|format_number }}</h4>
+                            <small class="text-muted">{{ materials.economy.description }}</small>
+                        </td>
+                        <td>
+                            <h4 class="text-primary">₹{{ materials.standard.price|int|format_number }}</h4>
+                            <small class="text-muted">{{ materials.standard.description }}</small>
+                        </td>
+                        <td>
+                            <h4 class="text-warning">₹{{ materials.premium.price|int|format_number }}</h4>
+                            <small class="text-muted">{{ materials.premium.description }}</small>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled small mb-0">
+                                {% if package == 'basic' %}
+                                <li><i class="fas fa-check text-success me-2"></i>Basic Decoration</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Essential Props</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Standard Lighting</li>
+                                {% elif package == 'standard' %}
+                                <li><i class="fas fa-check text-success me-2"></i>Themed Decoration</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Quality Props</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Good Lighting</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Backdrop Setup</li>
+                                {% else %}
+                                <li><i class="fas fa-check text-success me-2"></i>Premium Decoration</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Custom Props</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Advanced Lighting</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Complete Setup</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Special Effects</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-info mt-4">
+            <div class="d-flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle fa-2x"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Note on Pricing:</h5>
+                    <p class="mb-0">
+                        Prices vary based on:
+                        <strong>1) City Type</strong> (Metro/Tier/Local) |
+                        <strong>2) Material Grade</strong> (Economy/Standard/Premium) |
+                        <strong>3) Event Size</strong> |
+                        <strong>4) Specific Requirements</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- City-wise Comparison -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">City-wise <span class="text-primary">Value Comparison</span></h2>
+            <p class="text-muted">Same package, different value based on city</p>
+        </div>
+
+        <div class="row g-4">
+            {% for city_type, city_name, examples in city_types %}
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header text-white py-3
+                        {% if city_type == 'metro' %}bg-dark
+                        {% elif city_type == 'tier2' %}bg-primary
+                        {% elif city_type == 'tier3' %}bg-success
+                        {% else %}bg-warning text-dark{% endif %}">
+                        <h5 class="mb-0">{{ city_name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-center text-primary">
+                            ₹{{ calculate_quote(city_type, current_event_type, 'standard', 'standard')|int|format_number }}
+                        </h4>
+                        <p class="text-center text-muted small mb-4">Standard Package</p>
+
+                        <h6>Material Quality:</h6>
+                        <div class="progress mb-2" style="height: 10px;">
+                            <div class="progress-bar
+                                {% if city_type == 'metro' %}bg-dark
+                                {% elif city_type == 'tier2' %}bg-primary
+                                {% elif city_type == 'tier3' %}bg-success
+                                {% else %}bg-warning{% endif %}"
+                                style="width:
+                                {% if city_type == 'metro' %}100%
+                                {% elif city_type == 'tier2' %}80%
+                                {% elif city_type == 'tier3' %}70%
+                                {% else %}60%{% endif %}">
+                            </div>
+                        </div>
+
+                        <h6>Quantity/Coverage:</h6>
+                        <div class="progress mb-2" style="height: 10px;">
+                            <div class="progress-bar
+                                {% if city_type == 'metro' %}bg-dark
+                                {% elif city_type == 'tier2' %}bg-primary
+                                {% elif city_type == 'tier3' %}bg-success
+                                {% else %}bg-warning{% endif %}"
+                                style="width:
+                                {% if city_type == 'metro' %}100%
+                                {% elif city_type == 'tier2' %}85%
+                                {% elif city_type == 'tier3' %}75%
+                                {% else %}65%{% endif %}">
+                            </div>
+                        </div>
+
+                        <h6>Design Complexity:</h6>
+                        <div class="progress mb-4" style="height: 10px;">
+                            <div class="progress-bar
+                                {% if city_type == 'metro' %}bg-dark
+                                {% elif city_type == 'tier2' %}bg-primary
+                                {% elif city_type == 'tier3' %}bg-success
+                                {% else %}bg-warning{% endif %}"
+                                style="width:
+                                {% if city_type == 'metro' %}100%
+                                {% elif city_type == 'tier2' %}75%
+                                {% elif city_type == 'tier3' %}65%
+                                {% else %}55%{% endif %}">
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{{ url_for('quote') }}?city_type={{ city_type }}" class="btn btn-sm
+                                {% if city_type == 'metro' %}btn-dark
+                                {% elif city_type == 'tier2' %}btn-primary
+                                {% elif city_type == 'tier3' %}btn-success
+                                {% else %}btn-warning{% endif %}">
+                                Get Quote for {{ city_name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Pricing <span class="text-primary">FAQs</span></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="accordion" id="pricingFAQ">
+                    <!-- FAQ 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Why are prices different for different cities?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#pricingFAQ">
+                            <div class="accordion-body">
+                                <p>Our pricing varies by city to ensure <strong>fairness and value</strong>:</p>
+                                <ul>
+                                    <li><strong>Metro Cities:</strong> Higher material costs, specialized teams, intricate designs</li>
+                                    <li><strong>Tier 2/3 Cities:</strong> Good quality materials, experienced teams</li>
+                                    <li><strong>Local Cities:</strong> Budget-friendly options without compromising beauty</li>
+                                </ul>
+                                <p>You pay for the <strong>value appropriate to your location</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                What's included in the quoted price?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                            <div class="accordion-body">
+                                <p>All our quotes include:</p>
+                                <ul>
+                                    <li>Complete decoration as per package</li>
+                                    <li>Material costs (as per selected grade)</li>
+                                    <li>Labor charges</li>
+                                    <li>Transportation within city</li>
+                                    <li>Setup and dismantling</li>
+                                    <li>Basic maintenance during event</li>
+                                </ul>
+                                <p><strong>Note:</strong> Venue rental, food, and photography are not included unless specified.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Can I customize the package?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                            <div class="accordion-body">
+                                <p><strong>Yes, absolutely!</strong> We offer complete customization:</p>
+                                <ul>
+                                    <li>Mix and match elements from different packages</li>
+                                    <li>Upgrade/downgrade material quality</li>
+                                    <li>Add/remove specific decoration elements</li>
+                                    <li>Custom themes and color schemes</li>
+                                </ul>
+                                <p>Share your requirements and budget, and we'll create a <strong>custom quote</strong> just for you.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Are there any hidden charges?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                            <div class="accordion-body">
+                                <p><strong>No hidden charges!</strong> We believe in complete transparency:</p>
+                                <ul>
+                                    <li>All costs are mentioned in the quote</li>
+                                    <li>No surprise charges on event day</li>
+                                    <li>Clear breakdown of all expenses</li>
+                                    <li>Written agreement before starting work</li>
+                                </ul>
+                                <p>If any additional services are requested during the event, they will be discussed and approved by you first.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                What is your payment terms?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#pricingFAQ">
+                            <div class="accordion-body">
+                                <p>Our standard payment terms are:</p>
+                                <ul>
+                                    <li><strong>50% advance</strong> to confirm booking</li>
+                                    <li><strong>40%</strong> 7 days before the event</li>
+                                    <li><strong>10% balance</strong> after event completion</li>
+                                </ul>
+                                <p>For corporate clients and bulk bookings, we offer customized payment plans.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Ready to Get Exact Quote?</h3>
+                <p class="mb-0">Contact us for detailed pricing based on your specific requirements.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('quote') }}" class="btn btn-warning btn-lg">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>Get Detailed Quote
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Update pricing table when selections change
+    $('input[name="cityType"], input[name="eventType"]').change(function() {
+        const cityType = $('input[name="cityType"]:checked').val();
+        const eventType = $('input[name="eventType"]:checked').val();
+
+        // Update URL to reflect selections
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('city_type', cityType);
+        newUrl.searchParams.set('event_type', eventType);
+        window.history.replaceState({}, '', newUrl);
+
+        // Reload the page to show updated pricing
+        location.reload();
+    });
+
+    // Calculate price button
+    $('#calculatePrice').click(function() {
+        const cityType = $('input[name="cityType"]:checked').val();
+        const eventType = $('input[name="eventType"]:checked').val();
+        const materialGrade = $('input[name="materialGrade"]:checked').val();
+
+        $.ajax({
+            url: '/calculate',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                city_type: cityType,
+                event_type: eventType,
+                material_grade: materialGrade,
+                package: 'standard'
+            }),
+            success: function(response) {
+                if (response.success) {
+                    $('#calculatedPrice').text(response.formatted_price);
+                    $('#priceDescription').text(response.description);
+                    $('#priceResult').show();
+
+                    // Scroll to result
+                    $('html, body').animate({
+                        scrollTop: $('#priceResult').offset().top - 100
+                    }, 1000);
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1920');">
+    <div class="container">
+        <p data-aos="fade-up">Kind Words From Families & Brands</p>
+        <h1 class="font-serif" data-aos="fade-up" data-aos-delay="200">Client Testimonials</h1>
+    </div>
+</section>
+
+<!-- Reviews Grid Section -->
+<section class="section-padding">
+    <div class="container">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 60px;">
+            <h4 style="color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Reviews</h4>
+            <h2 class="font-serif" style="font-size: 2.8rem; line-height: 1.2; color: var(--maroon);">Stories of Celebration Success</h2>
+            <p style="color: var(--text-muted); margin-top: 15px;">Read how we helped families and businesses across major metros organize and decorate their premium celebrations.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 35px;">
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                    {% if review.image %}
+                        <img src="{{ review.image }}" alt="{{ review.name }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="{{ review.name }}">
+                    {% endif %}
+                    
+                    <div class="testimonial-stars">
+                        {% for i in range(review.rating) %}
+                            <i class="fas fa-star"></i>
+                        {% endfor %}
+                        {% for i in range(5 - review.rating) %}
+                            <i class="far fa-star"></i>
+                        {% endfor %}
+                    </div>
+                    
+                    <p style="font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">"{{ review.text }}"</p>
+                    <h4 class="font-serif" style="color: var(--maroon); font-size: 1.25rem;">{{ review.name }}</h4>
+                    <span>{{ review.event_name or 'Royal Celebration' }} | {{ review.city or 'India' }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; grid-column: span 3; color: var(--text-muted);">No reviews posted yet. Be the first to share your experience!</p>
+            {% endif %}
+        </div>
+        
+        <div style="text-align: center; margin-top: 70px;" data-aos="fade-up">
+            <h3 class="font-serif" style="font-size: 2rem; margin-bottom: 20px; color: var(--maroon);">Worked with us before?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">We value your feedback. Contact our operations desk to share your photos and review to be featured on our digital board.</p>
+            <a href="{{ url_for('main.contact') }}" class="btn-maroon">Send Us Feedback</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

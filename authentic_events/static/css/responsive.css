@@ -1,0 +1,457 @@
+/* RESPONSIVE CSS FOR AUTHENTIC EVENTS */
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+    /* General */
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        padding: 100px 0 50px;
+        margin-top: 60px;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Navbar */
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .brand-name {
+        font-size: 1.1rem;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Cards */
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .service-card, .portfolio-card {
+        margin-bottom: 20px;
+    }
+
+    /* Pricing Cards */
+    .pricing-card.featured {
+        transform: scale(1);
+    }
+
+    /* Forms */
+    .form-control, .form-select {
+        font-size: 14px;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        padding: 1rem 0.75rem;
+    }
+
+    .form-floating > label {
+        font-size: 14px;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    /* Sections */
+    section {
+        padding: 40px 0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    /* Timeline */
+    .timeline {
+        flex-direction: column;
+    }
+
+    .timeline:before {
+        display: none;
+    }
+
+    .timeline-step {
+        margin-bottom: 30px;
+    }
+
+    .timeline-step:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Tables */
+    .table-responsive {
+        font-size: 12px;
+    }
+
+    /* WhatsApp Button */
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+    }
+
+    /* City Badges */
+    .city-badge {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
+
+    /* Portfolio Grid */
+    .portfolio-overlay .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Small devices (landscape phones, 576px to 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    /* Hero Section */
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    /* Cards */
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Service Cards */
+    .service-card {
+        margin-bottom: 20px;
+    }
+
+    /* Timeline */
+    .timeline {
+        flex-wrap: wrap;
+    }
+
+    .timeline-step {
+        flex: 0 0 50%;
+        margin-bottom: 30px;
+    }
+
+    /* Pricing */
+    .pricing-card.featured {
+        transform: scale(1);
+    }
+}
+
+/* Medium devices (tablets, 768px to 991.98px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    /* Hero Section */
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    /* Service Cards */
+    .service-card .card-body {
+        padding: 1rem;
+    }
+
+    /* Portfolio */
+    .portfolio-card .card-body {
+        padding: 1rem;
+    }
+
+    /* Forms */
+    .form-control, .form-select {
+        font-size: 14px;
+    }
+
+    /* Timeline */
+    .timeline-step {
+        padding: 0 5px;
+    }
+}
+
+/* Large devices (desktops, 992px to 1199.98px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    /* Container adjustments */
+    .container {
+        max-width: 960px;
+    }
+
+    /* Hero Section */
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    /* Container adjustments */
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    /* Hide unnecessary elements for print */
+    .navbar,
+    .whatsapp-float,
+    footer,
+    .btn,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Adjust typography for print */
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #000 !important;
+        background: #fff !important;
+    }
+
+    /* Ensure links are visible in print */
+    a {
+        color: #000 !important;
+        text-decoration: underline;
+    }
+
+    /* Page breaks */
+    .page-break {
+        page-break-before: always;
+    }
+
+    /* Card adjustments for print */
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        margin-bottom: 20px;
+    }
+
+    /* Table adjustments */
+    table {
+        page-break-inside: avoid;
+    }
+
+    /* Images */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #D2691E;
+        --secondary-color: #FF8C00;
+        --accent-color: #FFD700;
+        --light-color: #2F4F4F;
+        --dark-color: #F5F5F5;
+    }
+
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .card {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+
+    .text-muted {
+        color: #aaa !important;
+    }
+
+    .bg-light {
+        background-color: #1e1e1e !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #000;
+        --secondary-color: #000;
+        --accent-color: #000;
+    }
+
+    .btn-primary {
+        border-width: 2px;
+    }
+
+    .form-control {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .service-card:hover,
+    .portfolio-card:hover,
+    .team-card:hover {
+        transform: none;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 44px;
+    }
+
+    /* Remove hover effects for touch */
+    .service-card:hover,
+    .portfolio-card:hover {
+        transform: none;
+    }
+
+    /* Increase spacing for touch */
+    .nav-link {
+        padding: 10px 15px;
+    }
+}
+
+/* Landscape orientation */
+@media (orientation: landscape) and (max-height: 500px) {
+    .hero-section {
+        padding: 80px 0 40px;
+        min-height: auto;
+    }
+
+    .page-header {
+        padding: 60px 0 30px;
+    }
+}
+
+/* Very small height devices */
+@media (max-height: 600px) {
+    .hero-section {
+        min-height: auto;
+        padding: 80px 0 40px;
+    }
+
+    .sticky-top {
+        position: static;
+    }
+}
+
+/* Fix for iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+    .hero-section {
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* Grid system adjustments */
+@media (max-width: 767.98px) {
+    .row {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* Modal adjustments for mobile */
+@media (max-width: 575.98px) {
+    .modal-dialog {
+        margin: 10px;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+}
+
+/* Fix for font rendering on mobile */
+@media (max-width: 767.98px) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+}
+
+/* Loading states for slow networks */
+@media (prefers-reduced-data: reduce) {
+    .lazy-image {
+        background-color: #f5f5f5;
+    }
+
+    .hero-section {
+        background: var(--primary-color) !important;
+    }
+
+    .page-header {
+        background: var(--primary-color) !important;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-transparency: reduce) {
+    .hero-section,
+    .page-header {
+        background: var(--primary-color) !important;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.9) !important;
+    }
+}

@@ -1,0 +1,75 @@
+<footer class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-primary p-2 rounded-circle me-3">
+                        <i class="fas fa-crown text-gold"></i>
+                    </div>
+                    <h4 class="brand-name text-white mb-0">{{ company_name }}</h4>
+                </div>
+                <p class="opacity-75 mb-4">India's leading destination for premium event decorations and bespoke planning services. We turn your milestones into masterpieces.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-light rounded-circle p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <h5 class="text-gold fw-bold mb-4">Quick Links</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-2"><a href="{{ url_for('home') }}" class="text-white text-decoration-none hover-gold">Home</a></li>
+                    <li class="mb-2"><a href="{{ url_for('about') }}" class="text-white text-decoration-none hover-gold">About Us</a></li>
+                    <li class="mb-2"><a href="{{ url_for('portfolio') }}" class="text-white text-decoration-none hover-gold">Masterpieces</a></li>
+                    <li class="mb-2"><a href="{{ url_for('pricing') }}" class="text-white text-decoration-none hover-gold">Smart Pricing</a></li>
+                    <li class="mb-2"><a href="{{ url_for('contact') }}" class="text-white text-decoration-none hover-gold">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <h5 class="text-gold fw-bold mb-4">Our Services</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-2"><a href="{{ url_for('service_detail', slug='wedding') }}" class="text-white text-decoration-none hover-gold">Royal Weddings</a></li>
+                    <li class="mb-2"><a href="{{ url_for('service_detail', slug='corporate') }}" class="text-white text-decoration-none hover-gold">Luxe Corporates</a></li>
+                    <li class="mb-2"><a href="{{ url_for('service_detail', slug='birthday') }}" class="text-white text-decoration-none hover-gold">Grand Birthdays</a></li>
+                    <li class="mb-2"><a href="{{ url_for('service_detail', slug='festival') }}" class="text-white text-decoration-none hover-gold">Cultural Festivals</a></li>
+                    <li class="mb-2"><a href="{{ url_for('service_detail', slug='home') }}" class="text-white text-decoration-none hover-gold">Private Home Decor</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <h5 class="text-gold fw-bold mb-4">Contact Info</h5>
+                <ul class="list-unstyled opacity-75">
+                    <li class="mb-3 d-flex align-items-start">
+                        <i class="fas fa-map-marker-alt text-gold me-3 mt-1"></i>
+                        <span>Head Office: Mumbai, India<br>Serving 50+ Cities Nationwide</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-phone-alt text-gold me-3"></i>
+                        <span>{{ contact_phone }}</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-envelope text-gold me-3"></i>
+                        <span>{{ contact_email }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-5 opacity-25">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 small opacity-50">&copy; {{ datetime.now().year }} {{ company_name }}. All Rights Reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                <p class="mb-0 small opacity-50">Designed for <span class="text-gold">Grandeur</span></p>
+            </div>
+        </div>
+    </div>
+</footer>

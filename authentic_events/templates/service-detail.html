@@ -1,0 +1,450 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} - {{ company_name }}{% endblock %}
+
+{% block meta_description %}{{ service.short_description }} - {{ company_name }} provides premium {{ service.name|lower }} services across India at city-appropriate prices.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header py-5" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ url_for('static', filename='images/services/' + service.image) if service.image else url_for('static', filename='images/service-detail-bg.jpg') }}'); background-size: cover; color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold">{{ service.name }}</h1>
+                <p class="lead">{{ service.short_description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Details -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Service Image -->
+                <div class="mb-5">
+                    <img src="{{ url_for('static', filename='images/services/' + service.image) if service.image else url_for('static', filename='images/service-default.jpg') }}"
+                         class="img-fluid rounded shadow-lg" alt="{{ service.name }}">
+                </div>
+
+                <!-- Service Description -->
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">About <span class="text-primary">{{ service.name }}</span></h2>
+                    <div class="service-description">
+                        {{ service.full_description|safe if service.full_description else service.short_description }}
+                    </div>
+                </div>
+
+                <!-- What's Included -->
+                {% set includes_list = service.includes|from_json if service.includes else [] %}
+                {% if includes_list %}
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">What's <span class="text-primary">Included</span></h2>
+                    <div class="row g-4">
+                        {% for item in includes_list %}
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-success fa-lg mt-1"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5>{{ item }}</h5>
+                                    <p class="text-muted small mb-0">Professional setup and execution</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Process -->
+                <div class="mb-5">
+                    <h2 class="section-title mb-4">Our <span class="text-primary">Process</span></h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center p-3 border rounded">
+                                <div class="process-step mb-3">1</div>
+                                <h5>Consultation</h5>
+                                <p class="text-muted small">Understand your requirements and vision</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center p-3 border rounded">
+                                <div class="process-step mb-3">2</div>
+                                <h5>Design</h5>
+                                <p class="text-muted small">Create custom design concepts</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center p-3 border rounded">
+                                <div class="process-step mb-3">3</div>
+                                <h5>Execution</h5>
+                                <p class="text-muted small">Professional setup and decoration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Quote Card -->
+                <div class="card border-0 shadow-lg sticky-top" style="top: 100px;">
+                    <div class="card-body p-4">
+                        <h4 class="card-title text-center mb-4">Get Quote for {{ service.name }}</h4>
+
+                        <div class="mb-4">
+                            <h5 class="text-primary">Starting Prices:</h5>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="text-center p-2 border rounded">
+                                        <small class="text-muted">Metro Cities</small>
+                                        <h6 class="mb-0">₹75,000+</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-2 border rounded">
+                                        <small class="text-muted">Tier 3 Cities</small>
+                                        <h6 class="mb-0">₹45,000+</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-2 border rounded">
+                                        <small class="text-muted">Local Cities</small>
+                                        <h6 class="mb-0">₹25,000+</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-2 border rounded">
+                                        <small class="text-muted">Custom</small>
+                                        <h6 class="mb-0">Get Quote</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form action="{{ url_for('quote') }}" method="GET">
+                            <input type="hidden" name="service" value="{{ service.slug }}">
+
+                            <div class="mb-3">
+                                <label class="form-label">Your City</label>
+                                <input type="text" name="city" class="form-control" placeholder="Enter your city" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Event Date</label>
+                                <input type="date" name="event_date" class="form-control" min="{{ today }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Approximate Budget</label>
+                                <select name="budget_range" class="form-select">
+                                    <option value="">Select Budget</option>
+                                    <option value="25-50">₹25,000 - ₹50,000</option>
+                                    <option value="50-75">₹50,000 - ₹75,000</option>
+                                    <option value="75-100">₹75,000 - ₹1,00,000</option>
+                                    <option value="100-150">₹1,00,000 - ₹1,50,000</option>
+                                    <option value="150+">₹1,50,000+</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-paper-plane me-2"></i>Get Free Quote
+                            </button>
+                        </form>
+
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-phone-alt me-1"></i>
+                                Or call: {{ contact_phone }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Features -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Why Choose Us</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>City-appropriate pricing</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Quality materials</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Experienced team</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>On-time delivery</small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>100% satisfaction</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Quick Contact</h5>
+                        <div class="d-grid gap-2">
+                            <a href="tel:{{ contact_phone }}" class="btn btn-outline-primary">
+                                <i class="fas fa-phone-alt me-2"></i>Call Now
+                            </a>
+                            <a href="https://wa.me/{{ contact_whatsapp }}" target="_blank" class="btn btn-success">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing by City -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">{{ service.name }} <span class="text-primary">Pricing</span></h2>
+            <p class="text-muted">Fair pricing based on your city type</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="mb-0">Metro Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-primary">₹75,000+</h3>
+                        <p class="text-muted">Starting Price</p>
+                        <ul class="list-unstyled text-start small">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Premium Materials</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Full Coverage</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Custom Designs</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Expert Team</li>
+                        </ul>
+                        <a href="{{ url_for('quote') }}?service={{ service.slug }}&city_type=metro" class="btn btn-dark mt-3">Get Metro Quote</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h5 class="mb-0">Tier 2 Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-primary">₹55,000+</h3>
+                        <p class="text-muted">Starting Price</p>
+                        <ul class="list-unstyled text-start small">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Good Materials</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Good Coverage</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Beautiful Designs</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Experienced Team</li>
+                        </ul>
+                        <a href="{{ url_for('quote') }}?service={{ service.slug }}&city_type=tier2" class="btn btn-primary mt-3">Get Tier 2 Quote</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-header bg-success text-white py-3">
+                        <h5 class="mb-0">Tier 3 Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-primary">₹35,000+</h3>
+                        <p class="text-muted">Starting Price</p>
+                        <ul class="list-unstyled text-start small">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Quality Materials</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Decent Coverage</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Nice Designs</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Skilled Team</li>
+                        </ul>
+                        <a href="{{ url_for('quote') }}?service={{ service.slug }}&city_type=tier3" class="btn btn-success mt-3">Get Tier 3 Quote</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm text-center featured">
+                    <div class="card-header bg-warning text-dark py-3">
+                        <h5 class="mb-0">Local Cities</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-primary">₹25,000+</h3>
+                        <p class="text-muted">Starting Price</p>
+                        <ul class="list-unstyled text-start small">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Budget Materials</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Basic Coverage</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Simple Designs</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Trained Team</li>
+                        </ul>
+                        <a href="{{ url_for('quote') }}?service={{ service.slug }}&city_type=local" class="btn btn-warning mt-3">Get Local Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Related <span class="text-primary">Projects</span></h2>
+            <p class="text-muted">See our work for similar events</p>
+        </div>
+
+        <div class="row g-4">
+            {% for project in related_projects[:3] %}
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="{{ url_for('static', filename='images/portfolio/' + project.featured_image) if project.featured_image else url_for('static', filename='images/portfolio-default.jpg') }}"
+                         class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary">{{ project.category|title }}</span>
+                            <span class="text-warning fw-bold">{{ project.budget }}</span>
+                        </div>
+                        <p class="card-text small text-muted">{{ project.description[:80] }}...</p>
+                        <a href="{{ url_for('project_detail', slug=project.slug) }}" class="btn btn-sm btn-outline-primary">View Project</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">{{ service.name }} <span class="text-primary">FAQs</span></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="serviceFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How far in advance should I book?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#serviceFAQ">
+                            <div class="accordion-body">
+                                We recommend booking at least <strong>1-2 months in advance</strong> for weddings and corporate events, and <strong>2-3 weeks in advance</strong> for birthday parties and other events. However, we can accommodate last-minute bookings subject to availability.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Do you provide materials or should we arrange?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#serviceFAQ">
+                            <div class="accordion-body">
+                                We provide <strong>complete materials</strong> as per the selected package. You don't need to arrange anything. However, if you have specific items you want to include, we can incorporate them into our design.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Can I see samples before booking?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#serviceFAQ">
+                            <div class="accordion-body">
+                                Yes! We can show you <strong>material samples, design sketches, and previous work photos</strong>. For metro and tier 2 cities, we can arrange physical samples. For other cities, we share high-quality photos and videos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                What is your cancellation policy?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#serviceFAQ">
+                            <div class="accordion-body">
+                                <strong>Cancellation Policy:</strong><br>
+                                - 30+ days before event: Full refund<br>
+                                - 15-30 days before: 50% refund<br>
+                                - 7-15 days before: 25% refund<br>
+                                - Less than 7 days: No refund<br>
+                                We understand emergencies and try to be flexible whenever possible.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>Ready to Book {{ service.name }}?</h3>
+                <p class="mb-0">Contact us now for a free consultation and custom quote.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ url_for('quote') }}?service={{ service.slug }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-calendar-check me-2"></i>Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.process-step {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 auto;
+}
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+}
+.service-description {
+    line-height: 1.8;
+}
+.service-description p {
+    margin-bottom: 1rem;
+}
+</style>
+{% endblock %}
