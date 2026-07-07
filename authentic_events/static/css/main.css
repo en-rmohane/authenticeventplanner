@@ -1088,7 +1088,7 @@ nav.scrolled {
 /* Responsive Menu Drawer */
 @media (max-width: 768px) {
     nav {
-        background: rgba(252, 250, 246, 0.98);
+        background: rgba(12, 11, 12, 0.98);
         border-bottom: 1px solid var(--border-gold);
         padding: 15px 0;
     }
@@ -1103,7 +1103,7 @@ nav.scrolled {
         right: -100%;
         width: 100%;
         height: calc(100vh - 60px);
-        background: rgba(252, 250, 246, 0.98);
+        background: rgba(12, 11, 12, 0.98);
         backdrop-filter: blur(10px);
         flex-direction: column;
         justify-content: center;
