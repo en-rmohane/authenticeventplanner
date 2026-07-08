@@ -848,6 +848,11 @@ nav.scrolled {
     background: #000000;
 }
 
+select option {
+    background-color: #151415;
+    color: #FDFBF8;
+}
+
 .alert {
     padding: 15px 20px;
     border-radius: 4px;
