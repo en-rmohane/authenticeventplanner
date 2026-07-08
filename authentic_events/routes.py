@@ -9,36 +9,64 @@ import random
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import base64
+from PIL import Image
+import io
 
 main = Blueprint('main', __name__)
 
-# Helper to convert upload file to base64 data url
+# Helper to convert upload file to base64 data url (shrink fallback)
 def save_picture_base64(form_picture):
     file_data = form_picture.read()
     mime_type = form_picture.content_type or 'image/jpeg'
     base64_data = base64.b64encode(file_data).decode('utf-8')
     return f"data:{mime_type};base64,{base64_data}"
 
-# Helper function for file uploads
+# Helper function for file uploads with image shrinking & compression
 def save_picture(form_picture, folder='uploads'):
-    # Detect Vercel/serverless environments to directly use base64
-    if os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV'):
-        return save_picture_base64(form_picture)
-        
     try:
+        # Open the uploaded image
+        img = Image.open(form_picture)
+        
+        # Max dimensions for shrinking (1000px width/height)
+        max_size = (1000, 1000)
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        
+        # Handle transparent PNG/RGBA conversions to JPEG
+        if img.mode == 'RGBA':
+            background = Image.new('RGB', img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[3])
+            img = background
+        elif img.mode != 'RGB':
+            img = img.convert('RGB')
+            
+        # Detect Vercel/serverless environments to directly return compressed base64
+        if os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV'):
+            output = io.BytesIO()
+            img.save(output, format='JPEG', quality=70, optimize=True)
+            base64_data = base64.b64encode(output.getvalue()).decode('utf-8')
+            return f"data:image/jpeg;base64,{base64_data}"
+            
+        # Try local disk save
         filename = secure_filename(form_picture.filename)
-        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-        filename = f"{timestamp}_{filename}"
+        filename_parts = os.path.splitext(filename)
+        # Force filename to end with .jpg since we save as JPEG
+        filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename_parts[0]}.jpg"
+        
         picture_path = os.path.join(current_app.root_path, 'static', folder, filename)
         os.makedirs(os.path.dirname(picture_path), exist_ok=True)
-        form_picture.save(picture_path)
+        
+        # Save shrunk and optimized JPEG image to disk
+        img.save(picture_path, format='JPEG', quality=70, optimize=True)
         return url_for('static', filename=folder + '/' + filename)
     except Exception as e:
-        # Fallback to base64 if directory creation or file writing fails locally
-        print(f"Local file write failed, falling back to base64 encoding: {e}")
-        # Reset file stream position to start just in case it was partially read
-        form_picture.seek(0)
-        return save_picture_base64(form_picture)
+        # Fallback to standard base64 if anything fails
+        print(f"Image compression or save failed, falling back: {e}")
+        try:
+            form_picture.seek(0)
+            return save_picture_base64(form_picture)
+        except Exception as ex:
+            print(f"Deep fallback failed: {ex}")
+            raise e
 
 # Helper function to send email notification
 def send_enquiry_email(enquiry):
