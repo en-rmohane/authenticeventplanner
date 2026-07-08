@@ -36,7 +36,7 @@ class Event(db.Model):
 
 class Gallery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    image_path = db.Column(db.String(255), nullable=False)
+    image_path = db.Column(db.Text, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     is_video = db.Column(db.Boolean, default=False)
     caption = db.Column(db.String(200))

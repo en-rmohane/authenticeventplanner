@@ -8,18 +8,37 @@ import os
 import random
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import base64
 
 main = Blueprint('main', __name__)
 
+# Helper to convert upload file to base64 data url
+def save_picture_base64(form_picture):
+    file_data = form_picture.read()
+    mime_type = form_picture.content_type or 'image/jpeg'
+    base64_data = base64.b64encode(file_data).decode('utf-8')
+    return f"data:{mime_type};base64,{base64_data}"
+
 # Helper function for file uploads
 def save_picture(form_picture, folder='uploads'):
-    filename = secure_filename(form_picture.filename)
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-    filename = f"{timestamp}_{filename}"
-    picture_path = os.path.join(current_app.root_path, 'static', folder, filename)
-    os.makedirs(os.path.dirname(picture_path), exist_ok=True)
-    form_picture.save(picture_path)
-    return filename
+    # Detect Vercel/serverless environments to directly use base64
+    if os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV'):
+        return save_picture_base64(form_picture)
+        
+    try:
+        filename = secure_filename(form_picture.filename)
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        filename = f"{timestamp}_{filename}"
+        picture_path = os.path.join(current_app.root_path, 'static', folder, filename)
+        os.makedirs(os.path.dirname(picture_path), exist_ok=True)
+        form_picture.save(picture_path)
+        return url_for('static', filename=folder + '/' + filename)
+    except Exception as e:
+        # Fallback to base64 if directory creation or file writing fails locally
+        print(f"Local file write failed, falling back to base64 encoding: {e}")
+        # Reset file stream position to start just in case it was partially read
+        form_picture.seek(0)
+        return save_picture_base64(form_picture)
 
 # Helper function to send email notification
 def send_enquiry_email(enquiry):
@@ -242,9 +261,9 @@ def admin_gallery():
     form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
     if form.validate_on_submit():
         if form.image.data:
-            img_file = save_picture(form.image.data)
+            img_path = save_picture(form.image.data)
             media = Gallery(
-                image_path=url_for('static', filename='uploads/' + img_file),
+                image_path=img_path,
                 category_id=form.category_id.data,
                 is_video=form.is_video.data,
                 caption=form.caption.data
